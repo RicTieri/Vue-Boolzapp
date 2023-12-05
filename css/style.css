@@ -46,6 +46,7 @@ img{
   width: 60%;
   height: 100%;
   margin: auto;
+  min-width: 1100px;
 }
 
 .sidebar{
@@ -56,6 +57,10 @@ img{
 .account,
 .chat{
   background-color: #eaeaea;
+}
+
+.chat{
+  border-left: 2px solid #b1b1b1;
 }
 
 .account i,
@@ -83,25 +88,20 @@ img{
   font-size: .8rem;
 }
 
-.searchbar{
-  display: flex;
-  justify-content: center;
-}
-
 #search,
 #newText{
   width: 100%;
   margin: .25rem;
 }
 
-.contact-list{
-  overflow: auto;
-}
-
 .contact,
 .account,
 .banner{
   padding: .5rem;
+}
+
+.contact:hover{
+  background-color: #e9ebeb;
 }
 
 .contact-info{

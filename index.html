@@ -18,34 +18,36 @@
 
   <div id="app">
     <aside class="sidebar">
-      <div class="account flex">
-        <div class="user-info flex">
-          <div class="img-cont">
-            <img :src="user.avatar" alt="profile pic">
+      <div class="top-side">
+        <div class="account flex">
+          <div class="user-info flex">
+            <div class="img-cont">
+              <img :src="user.avatar" alt="profile pic">
+            </div>
+            <div class="user-info">
+              <span>{{user.name}}</span>
+            </div>
           </div>
-          <div class="user-info">
-            <span>{{user.name}}</span>
-          </div>
-        </div>
-        <div class="taskbar">
-          <i class="fa-solid fa-circle-notch"></i>
-          <i class="fa-regular fa-message"></i>
-          <i class="fa-solid fa-ellipsis-vertical"></i>
-        </div>
-      </div>
-      <div class="banner">
-        <div class="user-info flex j-start">
-          <div class="img-cont flex j-center">
-            <i class="fa-regular fa-bell-slash"></i>
-          </div>
-          <div class="user-info">
-            <p>Ricevi notifiche di nuovi messaggi</p>
-            <a href="#">Attiva notifiche desktop</a>
+          <div class="taskbar">
+            <i class="fa-solid fa-circle-notch"></i>
+            <i class="fa-regular fa-message"></i>
+            <i class="fa-solid fa-ellipsis-vertical"></i>
           </div>
         </div>
-      </div>
-      <div class="search-bar">
-        <input type="text" id="search" name="search">
+        <div class="banner">
+          <div class="user-info flex j-start">
+            <div class="img-cont flex j-center">
+              <i class="fa-regular fa-bell-slash"></i>
+            </div>
+            <div class="user-info">
+              <p>Ricevi notifiche di nuovi messaggi</p>
+              <a href="#">Attiva notifiche desktop</a>
+            </div>
+          </div>
+        </div>
+        <div class="search-bar flex">
+          <input type="text" id="search" name="search">
+        </div>
       </div>
       <div class="contact-list">
         <div class="contact flex" v-for="contact in contacts">
@@ -55,11 +57,11 @@
             </div>
             <div class="contact-info">
               <p>{{contact.name}}</p>
-              <!-- <p>{{contact.messages[1].message}}</p> -->
+              <p>{{shortShowMsg(contact.messages[1].message)}}</p>
             </div>
           </div>
           <div class="taskbar">
-            <span>time</span>
+            <span>{{dateToHour(contact.messages[1].date)}}</span>
           </div>
         </div>
       </div>
@@ -83,6 +85,9 @@
         </div>
       </div>
       <div class="message-window">
+        <div class="message">
+          
+        </div>
       </div>
       <div class="message-input flex">
         <input type="text" id="newText" name="newText">
