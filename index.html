@@ -46,21 +46,23 @@
           </div>
         </div>
         <div class="search-bar flex">
-          <input type="text" id="search" name="search">
+          <input type="text" id="search" name="search" v-model="searchingChat" @keyup="searchContactBy(searchingChat)">
         </div>
       </div>
       <div class="contact-list">
-        <div class="contact flex" v-for="(contact, index) in contacts" @click="selected(index)">
-          <div class="contact-info flex">
-            <div class="img-cont">
-              <img :src="contact.avatar" alt="contact pic">
+        <div class="contact" v-for="(contact, index) in contacts" @click="selected(index)">
+          <div v-if="contact.visible" class="contact-container flex">
+            <div class="contact-info flex">
+              <div class="img-cont">
+                <img :src="contact.avatar" alt="contact pic">
+              </div>
+              <div class="contact-info">
+                <p>{{contact.name}}</p>
+                <p>{{shortShowMsg(contact.messages[contact.messages.length - 1].message)}}</p>
+              </div>
             </div>
-            <div class="contact-info">
-              <p>{{contact.name}}</p>
-              <p>{{shortShowMsg(contact.messages[0].message)}}</p>
-            </div>
+              <span>{{dateToHour(contact.messages[contact.messages.length - 1].date)}}</span>
           </div>
-            <span>{{dateToHour(contact.messages[0].date)}}</span>
         </div>
       </div>
     </aside>
@@ -76,8 +78,8 @@
             </div>
           </div>
           <div class="taskbar">
-            <i class="fa-solid fa-circle-notch"></i>
-            <i class="fa-regular fa-message"></i>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <i class="fa-solid fa-paperclip"></i>
             <i class="fa-solid fa-ellipsis-vertical"></i>
           </div>
         </div>
@@ -89,7 +91,7 @@
         </div>
       </div>
       <div class="message-input flex">
-        <input type="text" id="newText" name="newText">
+        <input type="text" v-model="newMessage" id="newText" name="newText" @keydown.enter="sendMessage(newMessage)">
       </div>
     </main>
   </div>

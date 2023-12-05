@@ -11,7 +11,7 @@ createApp({
         {
           name: 'Michele',
           avatar: './img/avatar_1.jpg',
-          visible: false,
+          visible: true,
           messages: [
             {
               date: '10/01/2020 15:30:55',
@@ -33,7 +33,7 @@ createApp({
         {
           name: 'Fabio',
           avatar: './img/avatar_2.jpg',
-          visible: false,
+          visible: true,
           messages: [
             {
               date: '20/03/2020 16:30:00',
@@ -55,7 +55,7 @@ createApp({
         {
           name: 'Samuele',
           avatar: './img/avatar_3.jpg',
-          visible: false,
+          visible: true,
           messages: [
             {
               date: '28/03/2020 10:10:40',
@@ -77,7 +77,7 @@ createApp({
         {
           name: 'Alessandro B.',
           avatar: './img/avatar_4.jpg',
-          visible: false,
+          visible: true,
           messages: [
             {
               date: '10/01/2020 15:30:55',
@@ -94,7 +94,7 @@ createApp({
         {
           name: 'Alessandro L.',
           avatar: './img/avatar_5.jpg',
-          visible: false,
+          visible: true,
           messages: [
             {
               date: '10/01/2020 15:30:55',
@@ -111,7 +111,7 @@ createApp({
         {
           name: 'Claudia',
           avatar: './img/avatar_6.jpg',
-          visible: false,
+          visible: true,
           messages: [
             {
               date: '10/01/2020 15:30:55',
@@ -133,7 +133,7 @@ createApp({
         {
           name: 'Federico',
           avatar: './img/avatar_7.jpg',
-          visible: false,
+          visible: true,
           messages: [
             {
               date: '10/01/2020 15:30:55',
@@ -150,7 +150,7 @@ createApp({
         {
           name: 'Davide',
           avatar: './img/avatar_8.jpg',
-          visible: false,
+          visible: true,
           messages: [
             {
               date: '10/01/2020 15:30:55',
@@ -170,7 +170,9 @@ createApp({
           ],
         }
       ],
-      selectedChat: {}
+      selectedChat: {},
+      newMessage: '',
+      searchingChat: '',
     }
   },
   methods: {
@@ -179,11 +181,43 @@ createApp({
       let secondStage = firstStage[1].split(':');
       return secondStage[0] + ':' + secondStage[1]
     },
+
     shortShowMsg(msg) {
       return msg.slice(0, 20) + '...';
     },
+
     selected(index) {
       this.selectedChat = this.contacts[index]
-    }
+    },
+
+    searchContactBy(value){
+      this.contacts.forEach( (element) => {
+        let check = element.name.toLowerCase();
+        if (!check.includes(value)){
+          element.visible = false;
+         } else{
+           element.visible = true;
+         }
+      })
+    },
+
+    sendMessage(msg){
+      let newMsg = {
+        date: '10/01/2020 15:30:55',
+        message: msg,
+        status: 'sent'
+      };
+      this.selectedChat.messages.push(newMsg);
+      this.newMessage = '';
+      setTimeout(()=>{
+        let newMsg = {
+          date: '10/01/2020 15:30:55',
+          message: 'ok',
+          status: 'received'
+        };
+        this.selectedChat.messages.push(newMsg);
+      } ,1000)
+    },
+
   }
 }).mount('#app')
