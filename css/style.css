@@ -1,10 +1,43 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  border: 1px solid black;
 }
 
-#app{
- 
+body{
+  padding: 3rem 0;
+  height: 100vh;
+}
+
+#app {
+  display: flex;
+  flex-wrap: wrap;
+  width: 60%;
+  height: 100%;
+  margin: auto;
+
+}
+
+.sidebar{
+  width: 350px;
+  height: 100%;
+}
+
+.header{
+  height: 70px;
+}
+
+.searchbar{
+  display: flex;
+  justify-content: center;
+}
+
+#search{
+  width: 100%;
+}
+
+.content{
+  flex-grow: 1;
 }
 
