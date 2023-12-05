@@ -18,12 +18,43 @@
 
   <div id="app">
    <aside class="sidebar">
-    <div class="account"></div>
+    <div class="account flex">
+      <div class="user-info flex">
+        <div class="img-cont">
+          <img :src="user.avatar" alt="profile pic">
+        </div>
+        <div class="user-info">
+          <span>{{user.name}}</span>
+        </div>
+      </div>
+      <div class="taskbar">
+        <i class="fa-solid fa-circle-notch"></i>
+        <i class="fa-regular fa-message"></i>
+        <i class="fa-solid fa-ellipsis-vertical"></i>
+      </div>
+    </div>
     <div class="banner"></div>
     <div class="search-bar">
       <input type="text" id="search" name="search">
     </div>
-    <div class="contact-list"></div>
+    <div class="contact-list">
+      <div class="contact flex" v-for="contact in contacts">
+        <div class="contact-info flex">
+          <div class="img-cont">
+            <img :src="contact.avatar" alt="contact pic">
+          </div>
+          <div class="contact-info">
+            <p>{{contact.name}}</p>
+            <p>{{contact.messages[0].message}}</p>
+          </div>
+        </div>
+        <div class="taskbar">
+          <i class="fa-solid fa-circle-notch"></i>
+          <i class="fa-regular fa-message"></i>
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </div>
+      </div>
+    </div>
    </aside>
    <main class="content">
     <div class="chat"></div>
