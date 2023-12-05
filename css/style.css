@@ -54,10 +54,16 @@ input:focus{
   margin: auto;
   min-width: 650px;
   background-color: whitesmoke;
+  overflow: hidden;
+  border-radius: 15px;
+  /* credits to box.shadows.co */
+  box-shadow: rgba(17, 17, 26, 0.4) 0px 0px 16px;
 }
 
 .sidebar{
-  min-width: 350px;
+  flex-direction: column;
+  align-items: stretch;
+  width: 350px;
   height: 100%;
 }
 
@@ -79,9 +85,9 @@ input:focus{
 .account i,
 .chat i{
   color: #b1b1b1;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
-  padding-right: .8rem;
+  margin-right: .9rem;
 }
 
 .banner{
@@ -181,15 +187,15 @@ input:focus{
   max-width: 60%;
   position: relative;
   margin: .25rem 0;
-  padding: .5rem 2rem .75rem 1rem;
+  padding: .75rem 2.5rem 1rem .75rem;
   border-radius: 10px;
   background-color: white;
 }
 
 .msg-time{
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 5px;
+  right: 5px;
   color: #b1b1b1;
   font-size: .6rem;
 }
@@ -211,6 +217,8 @@ input:focus{
 }
 
 .message-input i{
+  color: #6a7376;
+  font-size: 1.1rem;
   padding: 0 2rem;
 }
 
