@@ -147,7 +147,7 @@ input:focus{
 }
 
 .contact-list{
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .contact-list ul{
@@ -177,6 +177,7 @@ input:focus{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  overflow: auto;
 }
 
 .chat .img-cont{
@@ -187,9 +188,32 @@ input:focus{
   max-width: 60%;
   position: relative;
   margin: .25rem 0;
-  padding: .75rem 2.5rem 1rem .75rem;
+  padding: .75rem 1rem 0rem .75rem;
   border-radius: 10px;
   background-color: white;
+}
+
+.message p{
+  margin-bottom: 1.5rem;
+}
+
+.message i{
+  margin-left: 1rem;
+  align-self: flex-start;
+}
+
+.msg-popup{
+  padding: .66rem 1rem 0;
+  border-radius: 10px;
+  background-color: #eaeaea;
+  position: absolute;
+  top: 2rem;
+  right: 5px;
+  z-index: 1;
+}
+
+.msg-popup div{
+  margin-bottom: .66rem;
 }
 
 .msg-time{
@@ -203,6 +227,12 @@ input:focus{
 .sent{
   align-self: flex-end;
   background-color: #d5f9ba;
+}
+
+.message p.italic{
+  font-style: italic;
+  color: #6a7376;
+  margin-bottom: .75rem;
 }
 
 .message-input{

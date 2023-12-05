@@ -21,7 +21,7 @@
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
   <div id="app">
-    <aside class="sidebar flex">
+    <aside class="sidebar flex j-start">
       <div class="top-side">
         <div class="account flex">
           <div class="user-info flex">
@@ -93,10 +93,16 @@
         </div>
       </div>
       <div class="message-window j-start">
-        <div class="message" v-for="text in selectedChat.messages" :class=" (text.status == 'sent') ? 'sent' : '' ">
-          {{text.message}}
-          <span class="msg-time"></span>
-          <span class="msg-time">{{dateToHour(text.date)}}</span>
+        <div class="message flex" v-for="text in selectedChat.messages" :class=" (text.status == 'sent') ? 'sent' : '' ">
+          <p :class="(text.deletedMsg) ? 'italic': ''">
+            {{text.message}}
+          </p>
+          <i class="fa-solid fa-angle-down" @click="text.msgMenu = !text.msgMenu" v-show="!text.deletedMsg"></i>
+          <div class="msg-popup" v-show="text.msgMenu" @mouseleave="text.msgMenu = !text.msgMenu">
+            <div @click="deleteMessage(text)">Delete</div>
+            <div>Info</div>
+          </div>
+          <span class="msg-time" v-show="!text.deletedMsg">{{dateToHour(text.date)}}</span>
         </div>
       </div>
       <div class="message-input flex">
@@ -106,6 +112,7 @@
       </div>
     </main>
   </div>
+
 
   <script src="./js/script.js"></script>
 </body>
