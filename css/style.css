@@ -9,6 +9,7 @@ body{
   padding: 3rem 0;
   height: 100vh;
   background-image: url('/img/background-whatsapp.jpg');
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 img{
@@ -41,13 +42,17 @@ img{
   justify-content: flex-start;
 }
 
+input:focus{
+  outline: none;
+}
+
 #app {
   display: flex;
   flex-wrap: nowrap;
   width: 60%;
   height: 100%;
   margin: auto;
-  min-width: 1100px;
+  min-width: 650px;
   background-color: whitesmoke;
 }
 
@@ -59,6 +64,12 @@ img{
 .account,
 .chat{
   background-color: #eaeaea;
+}
+
+.content{
+  flex-direction: column;
+  align-items: stretch;
+  flex-grow: 1;
 }
 
 .chat{
@@ -90,6 +101,24 @@ img{
   font-size: .8rem;
 }
 
+.search-bar{
+  position: relative;
+  padding: .25rem;
+  background-color: #e9ebeb;
+}
+
+.search-bar i{
+  position: absolute;
+  left: 1.5rem;
+  color: #b1b1b1;
+}
+
+#search{
+  border: none;
+  border-radius: 5px;
+  padding: .5rem 3rem;
+}
+
 #search,
 #newText{
   width: 100%;
@@ -111,10 +140,28 @@ img{
   flex-wrap: wrap;
 }
 
-.content{
-  flex-direction: column;
-  align-items: stretch;
-  flex-grow: 1;
+.contact-list{
+  overflow-y: scroll;
+}
+
+.contact-list ul{
+  padding-top: 1rem;
+  list-style: none;
+}
+
+.contact-name{
+  margin-bottom: .5rem;
+}
+
+.lastMsg{
+  font-size: .8rem;
+  color: #b1b1b1;
+}
+
+.lastMsg-time{
+  font-size: .7rem;
+  color: #b1b1b1;
+  align-self: flex-start;
 }
 
 .message-window{
@@ -144,11 +191,26 @@ img{
   bottom: 0;
   right: 0;
   color: #b1b1b1;
-  font-size: .1rem;
+  font-size: .6rem;
 }
 
 .sent{
   align-self: flex-end;
   background-color: #d5f9ba;
+}
+
+.message-input{
+  background-color: #f3eeea;
+}
+
+#newText{
+  border-radius: 10px;
+  border: none;
+  padding: .5rem;
+  margin: .5rem 0;
+}
+
+.message-input i{
+  padding: 0 2rem;
 }
 
