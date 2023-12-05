@@ -50,19 +50,17 @@
         </div>
       </div>
       <div class="contact-list">
-        <div class="contact flex" v-for="contact in contacts">
+        <div class="contact flex" v-for="(contact, index) in contacts" @click="selected(index)">
           <div class="contact-info flex">
             <div class="img-cont">
               <img :src="contact.avatar" alt="contact pic">
             </div>
             <div class="contact-info">
               <p>{{contact.name}}</p>
-              <p>{{shortShowMsg(contact.messages[1].message)}}</p>
+              <p>{{shortShowMsg(contact.messages[0].message)}}</p>
             </div>
           </div>
-          <div class="taskbar">
-            <span>{{dateToHour(contact.messages[1].date)}}</span>
-          </div>
+            <span>{{dateToHour(contact.messages[0].date)}}</span>
         </div>
       </div>
     </aside>
@@ -71,10 +69,10 @@
         <div class="contact flex">
           <div class="contact-info flex">
             <div class="img-cont">
-              <img :src="user.avatar" alt="profile pic">
+              <img  v-if="selectedChat.avatar" :src="selectedChat.avatar" alt="profile pic">
             </div>
             <div class="user-info">
-              <span>{{user.name}}</span>
+              <span>{{selectedChat.name}}</span>
             </div>
           </div>
           <div class="taskbar">
@@ -84,9 +82,10 @@
           </div>
         </div>
       </div>
-      <div class="message-window">
-        <div class="message">
-          
+      <div class="message-window j-start">
+        <div class="message" v-for="text in selectedChat.messages" :class=" (text.status == 'sent') ? 'sent' : '' ">
+          {{text.message}}
+          <span class="msg-time">{{dateToHour(text.date)}}</span>
         </div>
       </div>
       <div class="message-input flex">

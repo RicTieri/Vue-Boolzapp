@@ -169,18 +169,21 @@ createApp({
             }
           ],
         }
-      ]
-
+      ],
+      selectedChat: {}
     }
   },
   methods: {
-    dateToHour(date){
+    dateToHour(date) {
       let firstStage = date.split(' ');
       let secondStage = firstStage[1].split(':');
       return secondStage[0] + ':' + secondStage[1]
     },
-    shortShowMsg(msg){
+    shortShowMsg(msg) {
       return msg.slice(0, 20) + '...';
+    },
+    selected(index) {
+      this.selectedChat = this.contacts[index]
     }
   }
 }).mount('#app')
