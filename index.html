@@ -17,35 +17,14 @@
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
   <div id="app">
-   <aside class="sidebar">
-    <div class="account flex">
-      <div class="user-info flex">
-        <div class="img-cont">
-          <img :src="user.avatar" alt="profile pic">
-        </div>
-        <div class="user-info">
-          <span>{{user.name}}</span>
-        </div>
-      </div>
-      <div class="taskbar">
-        <i class="fa-solid fa-circle-notch"></i>
-        <i class="fa-regular fa-message"></i>
-        <i class="fa-solid fa-ellipsis-vertical"></i>
-      </div>
-    </div>
-    <div class="banner"></div>
-    <div class="search-bar">
-      <input type="text" id="search" name="search">
-    </div>
-    <div class="contact-list">
-      <div class="contact flex" v-for="contact in contacts">
-        <div class="contact-info flex">
+    <aside class="sidebar">
+      <div class="account flex">
+        <div class="user-info flex">
           <div class="img-cont">
-            <img :src="contact.avatar" alt="contact pic">
+            <img :src="user.avatar" alt="profile pic">
           </div>
-          <div class="contact-info">
-            <p>{{contact.name}}</p>
-            <p>{{contact.messages[0].message}}</p>
+          <div class="user-info">
+            <span>{{user.name}}</span>
           </div>
         </div>
         <div class="taskbar">
@@ -54,13 +33,61 @@
           <i class="fa-solid fa-ellipsis-vertical"></i>
         </div>
       </div>
-    </div>
-   </aside>
-   <main class="content">
-    <div class="chat"></div>
-    <div class="message-window"></div>
-    <div class="message-input"></div>
-   </main>
+      <div class="banner">
+        <div class="user-info flex j-start">
+          <div class="img-cont flex j-center">
+            <i class="fa-regular fa-bell-slash"></i>
+          </div>
+          <div class="user-info">
+            <p>Ricevi notifiche di nuovi messaggi</p>
+            <a href="#">Attiva notifiche desktop</a>
+          </div>
+        </div>
+      </div>
+      <div class="search-bar">
+        <input type="text" id="search" name="search">
+      </div>
+      <div class="contact-list">
+        <div class="contact flex" v-for="contact in contacts">
+          <div class="contact-info flex">
+            <div class="img-cont">
+              <img :src="contact.avatar" alt="contact pic">
+            </div>
+            <div class="contact-info">
+              <p>{{contact.name}}</p>
+              <!-- <p>{{contact.messages[1].message}}</p> -->
+            </div>
+          </div>
+          <div class="taskbar">
+            <span>time</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <main class="content flex">
+      <div class="chat">
+        <div class="contact flex">
+          <div class="contact-info flex">
+            <div class="img-cont">
+              <img :src="user.avatar" alt="profile pic">
+            </div>
+            <div class="user-info">
+              <span>{{user.name}}</span>
+            </div>
+          </div>
+          <div class="taskbar">
+            <i class="fa-solid fa-circle-notch"></i>
+            <i class="fa-regular fa-message"></i>
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+          </div>
+        </div>
+      </div>
+      <div class="message-window">
+      </div>
+      <div class="message-input flex">
+        <input type="text" id="newText" name="newText">
+      </div>
+    </main>
   </div>
 
   <script src="./js/script.js"></script>

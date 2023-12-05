@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 
 body{
@@ -17,10 +17,27 @@ img{
   object-position: center;
 }
 
+.img-cont{
+  width: 50px;
+  height: 50px;
+  margin-right: .5rem;
+  overflow: hidden;
+  background-color: white;
+  border-radius: 50%;
+}
+
 .flex{
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.j-center{
+  justify-content: center;
+}
+
+.j-start{
+  justify-content: flex-start;
 }
 
 #app {
@@ -36,15 +53,34 @@ img{
   height: 100%;
 }
 
-.header{
-  height: 70px;
+.account,
+.chat{
+  background-color: #eaeaea;
 }
 
-.img-cont{
-  width: 60px;
-  height: 60px;
-  overflow: hidden;
-  border-radius: 50%;
+.account i,
+.chat i{
+  color: #b1b1b1;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding-right: .8rem;
+}
+
+.banner{
+  background-color: #8edafc;
+}
+
+.banner i{
+  color: #8edafc;
+}
+
+.banner p{
+  font-size: .9rem;
+}
+
+.banner a{
+  color: grey;
+  font-size: .8rem;
 }
 
 .searchbar{
@@ -52,11 +88,34 @@ img{
   justify-content: center;
 }
 
-#search{
+#search,
+#newText{
   width: 100%;
+  margin: .25rem;
+}
+
+.contact-list{
+  overflow: auto;
+}
+
+.contact,
+.account,
+.banner{
+  padding: .5rem;
+}
+
+.contact-info{
+  flex-wrap: wrap;
 }
 
 .content{
+  flex-direction: column;
+  align-items: stretch;
   flex-grow: 1;
+}
+
+.message-window{
+  flex-grow: 1;
+  background-image: url('/img/mine.jpg');
 }
 
