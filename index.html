@@ -42,13 +42,22 @@
           </div>
         </div>
         <div class="banner">
-          <div class="user-info flex j-start">
+          <div class="user-info flex j-start" v-if="!alertOn">
             <div class="img-cont flex j-center">
-              <i class="fa-regular fa-bell-slash"></i>
+              <i class="fa-regular fa-bell-slash" @click="alertOn = !alertOn"></i>
             </div>
             <div class="user-info">
               <p>Ricevi notifiche di nuovi messaggi</p>
-              <a href="#">Attiva notifiche desktop</a>
+              <a href="#" @click="alertOn = !alertOn">Attiva notifiche desktop</a>
+            </div>
+          </div>
+          <div class="user-info flex j-start" v-else>
+            <div class="img-cont flex j-center">
+              <i class="fa-regular fa-bell" @click="alertOn = !alertOn"></i>
+            </div>
+            <div class="user-info">
+              <p>Ricevi notifiche di nuovi messaggi</p>
+              <a href="#" @click="alertOn = !alertOn">Disattiva notifiche desktop</a>
             </div>
           </div>
         </div>
@@ -129,11 +138,20 @@
             </div>
           </div>
         </div>
+        <div class="emoji-menu flex" v-show="emojiMenu">
+          <div class="emoji-menu-head flex">
+            <div v-for="(item, index) in emojiArray" @click="selEmojiMenu(index)">{{item.emojiSection}}</div>
+          </div>
+          <div class="emoji-menu-list flex j-start">
+            <div v-for="emoji in emojiSelCategory.emojis" @click="addEmojiToNewMessage(emoji.character)">{{emoji.character}}</div>
+          </div>
+        </div>
       </div>
-      <div class="message-input flex">
-        <i class="fa-regular fa-face-smile"></i>
-        <input type="text" v-model="newMessage" id="newText" name="newText" @keydown.enter="sendMessage(newMessage)">
-        <i class="fa-solid fa-microphone"></i>
+      <div class="message-input flex j-start">
+        <i class="fa-regular fa-face-smile" @click="openEmojiMenu()"></i>
+        <input type="text" v-model="newMessage" id="newText" name="newText" @keydown.enter="sendMessage(newMessage)" placeholder="Scrivi un nuovo messaggio">
+        <i class="fa-solid fa-microphone" v-if="!newMessage"></i>
+        <i class="fa-regular fa-paper-plane" v-else @click="sendMessage(newMessage)"></i>
       </div>
     </main>
   </div>

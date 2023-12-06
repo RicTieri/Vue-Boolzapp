@@ -257,7 +257,76 @@ createApp({
       selectedChat: {},
       selectedMsg: {},
       newMessage: '',
-      searchingChat: ''
+      searchingChat: '',
+      alertOn: false,
+      emojiMenu: false,
+      emojiArray: [
+        {
+          emojiSection: '😎',
+          emojis: [
+            { character: '😀' }, { character: '😃' }, { character: '😄' }, { character: '😁' }, { character: '😆' },
+            { character: '😅' }, { character: '😂' }, { character: '🙂' }, { character: '🙃' }, { character: '😉' },
+            { character: '😊' }, { character: '😋' }, { character: '😎' }, { character: '😍' }, { character: '😘' },
+            { character: '😗' }, { character: '😙' }, { character: '😚' }, { character: '☺️' }, { character: '🤗' },
+            { character: '🤔' }, { character: '😐' }, { character: '😑' }, { character: '😶' }, { character: '😏' }
+          ]
+        },
+        {
+          emojiSection: '🐵',
+          emojis: [
+            { character: '🐶' }, { character: '🐱' }, { character: '🐭' }, { character: '🐹' }, { character: '🐰' },
+            { character: '🦊' }, { character: '🐻' }, { character: '🐼' }, { character: '🐨' }, { character: '🐯' },
+            { character: '🦁' }, { character: '🐮' }, { character: '🐷' }, { character: '🐸' }, { character: '🐵' },
+            { character: '🐔' }, { character: '🐧' }, { character: '🐦' }, { character: '🐤' }, { character: '🦆' }
+          ]
+        },
+        {
+          emojiSection: '🍒',
+          emojis: [
+            { character: '🍏' }, { character: '🍎' }, { character: '🍐' }, { character: '🍊' }, { character: '🍋' },
+            { character: '🍌' }, { character: '🍉' }, { character: '🍇' }, { character: '🍓' }, { character: '🍈' },
+            { character: '🍒' }, { character: '🍑' }, { character: '🍍' }, { character: '🥭' }, { character: '🥥' },
+            { character: '🥝' }, { character: '🍅' }, { character: '🥑' }, { character: '🥦' }, { character: '🥒' }
+          ]
+        },
+        {
+          emojiSection: '🎯',
+          emojis: [
+            { character: '⚽' }, { character: '🏀' }, { character: '🏈' }, { character: '⚾' }, { character: '🎾' },
+            { character: '🏐' }, { character: '🏉' }, { character: '🎱' }, { character: '🏓' }, { character: '🏸' },
+            { character: '🥅' }, { character: '🎳' }, { character: '🎮' }, { character: '🎯' }, { character: '🎰' },
+            { character: '🎲' }, { character: '🧩' }, { character: '♟️' }, { character: '🎻' }, { character: '🎺' }
+          ]
+        },
+        {
+          emojiSection: '🛵',
+          emojis: [
+            { character: '🚗' }, { character: '🚕' }, { character: '🚙' }, { character: '🚌' }, { character: '🚎' },
+            { character: '🏎️' }, { character: '🚓' }, { character: '🚑' }, { character: '🚒' }, { character: '🚐' },
+            { character: '🛻' }, { character: '🚚' }, { character: '🚛' }, { character: '🚜' }, { character: '🏍️' },
+            { character: '🛵' }, { character: '🚲' }, { character: '🛴' }, { character: '🚨' }, { character: '🚔' }
+          ]
+        },
+        {
+          emojiSection: '🕹️',
+          emojis: [
+            { character: '⌚' }, { character: '📱' }, { character: '💻' }, { character: '🖥️' }, { character: '🖨️' },
+            { character: '🖱️' }, { character: '🖲️' }, { character: '🕹️' }, { character: '🗜️' }, { character: '💽' },
+            { character: '💾' }, { character: '💿' }, { character: '📀' }, { character: '📷' }, { character: '📸' },
+            { character: '🎥' }, { character: '📹' }, { character: '🎬' }, { character: '📺' }, { character: '📻' }
+          ]
+        },
+        {
+          emojiSection: '❤️',
+          emojis: [
+            { character: '❤️' }, { character: '💛' }, { character: '💚' }, { character: '💙' }, { character: '💜' },
+            { character: '🖤' }, { character: '💔' }, { character: '❣️' }, { character: '💕' }, { character: '💞' },
+            { character: '💓' }, { character: '💗' }, { character: '💖' }, { character: '💘' }, { character: '💝' },
+            { character: '💟' }, { character: '☮️' }, { character: '✝️' }, { character: '☪️' }, { character: '🕉️' }
+          ]
+        }
+      ],
+      emojiSelCategory: []
     }
   },
   methods: {
@@ -277,7 +346,20 @@ createApp({
 
     selChat(index) {
       this.selectedChat = this.contacts[index]
-      if(!this.contacts[index].avatar) this.contacts[index].avatar = './img/blank-profile.jpg'
+      if (!this.contacts[index].avatar) this.contacts[index].avatar = './img/blank-profile.jpg'
+    },
+
+    selEmojiMenu(index){
+      this.emojiSelCategory = this.emojiArray[index]
+    },
+
+    openEmojiMenu(){
+      this.emojiMenu = !this.emojiMenu;
+      this.selEmojiMenu(0)
+    },
+
+    addEmojiToNewMessage(emoji){
+      this.newMessage += emoji
     },
 
     selMsg(text, index) {
