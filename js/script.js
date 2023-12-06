@@ -406,7 +406,11 @@ createApp({
         let newMsg = {
           date: luxon.DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
           message: msg.trim(),
-          status: 'sent'
+          status: 'sent',
+          msgMenu: false,
+          deletedMsg: false,
+          removedMsg: false,
+          msgInfo: false
         };
         this.contacts[this.activeIndex].messages.push(newMsg);
         this.newMessage = '';
@@ -414,7 +418,11 @@ createApp({
           let newMsg = {
             date: luxon.DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
             message: 'Non lo so Michh, mi sembra falso!',
-            status: 'received'
+            status: 'received',
+            msgMenu: false,
+            deletedMsg: false,
+            removedMsg: false,
+            msgInfo: false
           };
           this.contacts[this.activeIndex].messages.push(newMsg);
         }, 1000)
