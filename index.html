@@ -60,15 +60,18 @@
       </div>
       <!-- bottom sidebar -->
       <div class="contact-list">
-        <div class="contact" v-for="(contact, index) in contacts" @click="selChat(index)" v-show="contact.visible">
+        <div class="contact" v-for="(contact, index) in contacts" @click="selChat(index)" v-show="contact.visible" >
           <div class="contact-container flex">
             <div class="contact-info flex">
-              <div class="img-cont">
+              <div v-if="contact.avatar" class="img-cont">
                 <img :src="contact.avatar" alt="contact pic">
+              </div>
+              <div v-else class="img-cont">
+                <img src="./img/blank-profile.jpg" alt="contact pic">
               </div>
               <div class="contact-info">
                 <p class="contact-name">{{contact.name}}</p>
-                <p class="lastMsg">{{shortShowMsg(contact.messages[contact.messages.length - 1].message)}}</p>
+                <p class="lastMsg">{{shortShowMsg(lastMsg(contact))}}</p>
               </div>
             </div>
             <span class="lastMsg-time">{{dateToHour(contact.messages[contact.messages.length - 1].date)}}</span>
@@ -82,12 +85,12 @@
       <div class="chat">
         <div class="contact flex">
           <div class="contact-info flex">
-            <div class="img-cont">
+            <div class="img-cont" :class="(selectedChat.avatar) ? 'box-sh':''">
               <img v-show="selectedChat.avatar" :src="selectedChat.avatar" alt="profile pic">
             </div>
             <div class="user-info">
               <p v-show="selectedChat.name">{{selectedChat.name}}</p>
-              <p class="user-info-detail" v-show="selectedChat.messages">Ultimo accesso alle {{lastMsgReceived()}}</p>
+              <p class="user-info-detail" v-show="selectedChat.messages">Ultimo accesso alle {{lastMsgReceivedTime()}}</p>
             </div>
           </div>
           <div class="taskbar">

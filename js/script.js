@@ -44,7 +44,7 @@ createApp({
         },
         {
           name: 'Fabio',
-          avatar: './img/avatar_2.jpg',
+          avatar: '',
           visible: true,
           messages: [
             {
@@ -269,41 +269,57 @@ createApp({
 
     shortShowMsg(msg) {
       let maybeCropMsg = msg;
-      if(msg.length >= 20){
+      if (msg.length >= 20) {
         maybeCropMsg = msg.slice(0, 20) + '...';
-      } 
+      }
       return maybeCropMsg
     },
 
     selChat(index) {
       this.selectedChat = this.contacts[index]
+      if(!this.contacts[index].avatar) this.contacts[index].avatar = './img/blank-profile.jpg'
     },
 
     selMsg(text, index) {
-      this.selectedMsg = {...text, msgInfo: true, srcIndex: index};
+      this.selectedMsg = { ...text, msgInfo: true, srcIndex: index };
     },
 
-    lastMsgReceived(){
-      if(this.selectedChat.messages){
+    lastMsgReceivedTime() {
+      if (this.selectedChat.messages) {
         let receivedMsg = this.selectedChat.messages.filter((msg) => msg.status == 'received')
-        let lastReceivedMsg = receivedMsg[receivedMsg.length -1].date
+        let lastReceivedMsg = receivedMsg[receivedMsg.length - 1].date
         let result = this.dateToHour(lastReceivedMsg)
         return result
       }
     },
 
-    searchContactBy(value){
-      this.contacts.forEach( (element) => {
+    lastMsg(contact) {
+      let showMsg = contact.messages.filter((msg) => msg.removedMsg == false)
+      let lastReceivedMsg = showMsg[showMsg.length - 1]
+      return lastReceivedMsg.message
+    },
+
+    searchContactBy(value) {
+      this.contacts.forEach((element) => {
         let check = element.name.toLowerCase();
-        if (!check.includes(value)){
+        if (!check.includes(value)) {
           element.visible = false;
-         } else{
-           element.visible = true;
-         }
+        } else {
+          element.visible = true;
+        }
+      });
+
+      this.new.forEach((element) => {
+        let check = element.name.toLowerCase();
+        if (!check.includes(value)) {
+          element.visible = false;
+        } else {
+          element.visible = true;
+        }
       })
     },
 
-    sendMessage(msg){
+    sendMessage(msg) {
       let newMsg = {
         date: luxon.DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
         message: msg,
@@ -311,31 +327,32 @@ createApp({
       };
       this.selectedChat.messages.push(newMsg);
       this.newMessage = '';
-      setTimeout(()=>{
+      setTimeout(() => {
         let newMsg = {
           date: luxon.DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
-          message: 'Non lo so Ric, mi sembra falso!',
+          message: 'Non lo so Michh, mi sembra falso!',
           status: 'received'
         };
         this.selectedChat.messages.push(newMsg);
-      } ,1000)
+      }, 1000)
     },
 
-    deleteMsgForAll(item){
+    deleteMsgForAll(item) {
+      if (!item.removedMsg) {
         item.message = 'Questo messaggio è stato eliminato.';
-        item.msgMenu = '';
         item.deletedMsg = true;
         item.msgMenu = false;
         item.msgInfo = false
+      }
     },
 
-    deleteMsgForMe(item){
-      if(!item.deletedMsg){
-      item.removedMsg = true;
-      item.msgMenu = false;
-      item.msgInfo = false
+    deleteMsgForMe(item) {
+      if (!item.deletedMsg) {
+        item.removedMsg = true;
+        item.msgMenu = false;
+        item.msgInfo = false;
       }
     }
-
-  }
-}).mount('#app')
+  },
+}
+).mount('#app')

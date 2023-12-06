@@ -75,6 +75,11 @@ input:focus{
   height: 100%;
 }
 
+.sidebar .img-cont,
+.box-sh{
+  box-shadow: rgba(17, 17, 26, 0.3) 0px 0px 16px;
+}
+
 
 main.content{
   flex-direction: column;
@@ -143,7 +148,7 @@ main.content{
 .contact,
 .account,
 .banner{
-  padding: .5rem;
+  padding: .75rem .75rem;
   cursor: pointer;
 }
 
