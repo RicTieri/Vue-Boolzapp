@@ -69,8 +69,8 @@
       </div>
       <!-- bottom sidebar -->
       <div class="contact-list">
-        <div class="contact" v-for="(contact, index) in contacts" @click="selChat(index)" v-show="contact.visible" >
-          <div class="contact-container flex">
+        <div class="contact" :class=" activeIndex == index ?'active-contact':''" v-for="(contact, index) in contacts" @click="selChat(index)" v-show="contact.visible" >
+          <div class="contact-container flex" >
             <div class="contact-info flex">
               <div v-if="contact.avatar" class="img-cont">
                 <img :src="contact.avatar" alt="contact pic">
@@ -94,12 +94,12 @@
       <div class="chat">
         <div class="contact flex">
           <div class="contact-info flex">
-            <div class="img-cont" :class="(selectedChat.avatar) ? 'box-sh':''">
-              <img v-show="selectedChat.avatar" :src="selectedChat.avatar" alt="profile pic">
+            <div class="img-cont" :class="(contacts[activeIndex].avatar) ? 'box-sh':''">
+              <img v-show="contacts[activeIndex].avatar" :src="contacts[activeIndex].avatar" alt="profile pic">
             </div>
             <div class="user-info">
-              <p v-show="selectedChat.name">{{selectedChat.name}}</p>
-              <p class="user-info-detail" v-show="selectedChat.messages">Ultimo accesso alle {{lastMsgReceivedTime()}}</p>
+              <p v-show="contacts[activeIndex].name">{{contacts[activeIndex].name}}</p>
+              <p class="user-info-detail" v-show="contacts[activeIndex].messages">Ultimo accesso alle {{lastMsgReceivedTime()}}</p>
             </div>
           </div>
           <div class="taskbar">
@@ -111,7 +111,7 @@
       </div>
       <!-- chat box -->
       <div class="message-window j-start">
-        <div class="message flex" v-for="(text, index) in selectedChat.messages"
+        <div class="message flex" v-for="(text, index) in contacts[activeIndex].messages"
           :class=" (text.status == 'sent') ? 'sent' : '' " v-show="!text.removedMsg">
           <p :class="(text.deletedMsg) ? 'italic': ''">
             {{text.message}}
@@ -128,17 +128,17 @@
         <div v-if="selectedMsg.msgInfo" class="msg-info">
           <div class="msg-info-box flex ai-start" @mouseleave="selectedMsg.msgInfo = !selectedMsg.msgInfo">
             <i class="fa-regular fa-circle-xmark as-end" @click="selectedMsg.msgInfo = !selectedMsg.msgInfo"></i>
-            <p v-if="selectedMsg.status == 'received'">Chat con: {{selectedChat.name}}</p>
+            <p v-if="selectedMsg.status == 'received'">Chat con: {{contacts[activeIndex].name}}</p>
             <p v-else>Inviato da te</p>
             <p>Stato: {{selectedMsg.status}}</p>
             <p>{{selectedMsg.date}}</p>
             <div class="ic-wrapper flex">
-              <i class="fa-solid fa-eraser" @click="deleteMsgForMe(selectedChat.messages[selectedMsg.srcIndex])"></i>
-              <i class="fa-solid fa-trash" @click="deleteMsgForAll(selectedChat.messages[selectedMsg.srcIndex])"></i>
+              <i class="fa-solid fa-eraser" @click="deleteMsgForMe(contacts[activeIndex].messages[selectedMsg.srcIndex])"></i>
+              <i class="fa-solid fa-trash" @click="deleteMsgForAll(contacts[activeIndex].messages[selectedMsg.srcIndex])"></i>
             </div>
           </div>
         </div>
-        <div class="emoji-menu flex" v-show="emojiMenu">
+        <div class="emoji-menu flex" v-show="emojiMenu" @mouseleave="emojiMenu = !emojiMenu">
           <div class="emoji-menu-head flex">
             <div v-for="(item, index) in emojiArray" @click="selEmojiMenu(index)">{{item.emojiSection}}</div>
           </div>

@@ -254,7 +254,7 @@ createApp({
           ],
         }
       ],
-      selectedChat: {},
+      activeIndex: 0,
       selectedMsg: {},
       newMessage: '',
       searchingChat: '',
@@ -345,7 +345,7 @@ createApp({
     },
 
     selChat(index) {
-      this.selectedChat = this.contacts[index]
+      this.activeIndex = index
       if (!this.contacts[index].avatar) this.contacts[index].avatar = './img/blank-profile.jpg'
     },
 
@@ -367,8 +367,8 @@ createApp({
     },
 
     lastMsgReceivedTime() {
-      if (this.selectedChat.messages) {
-        let receivedMsg = this.selectedChat.messages.filter((msg) => msg.status == 'received')
+      if (this.contacts[this.activeIndex].messages) {
+        let receivedMsg = this.contacts[this.activeIndex].messages.filter((msg) => msg.status == 'received')
         let lastReceivedMsg = receivedMsg[receivedMsg.length - 1].date
         let result = this.dateToHour(lastReceivedMsg)
         return result
@@ -402,21 +402,23 @@ createApp({
     },
 
     sendMessage(msg) {
-      let newMsg = {
-        date: luxon.DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
-        message: msg,
-        status: 'sent'
-      };
-      this.selectedChat.messages.push(newMsg);
-      this.newMessage = '';
-      setTimeout(() => {
+      if(msg.trim()){
         let newMsg = {
           date: luxon.DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
-          message: 'Non lo so Michh, mi sembra falso!',
-          status: 'received'
+          message: msg.trim(),
+          status: 'sent'
         };
-        this.selectedChat.messages.push(newMsg);
-      }, 1000)
+        this.contacts[this.activeIndex].messages.push(newMsg);
+        this.newMessage = '';
+        setTimeout(() => {
+          let newMsg = {
+            date: luxon.DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
+            message: 'Non lo so Michh, mi sembra falso!',
+            status: 'received'
+          };
+          this.contacts[this.activeIndex].messages.push(newMsg);
+        }, 1000)
+      }
     },
 
     deleteMsgForAll(item) {
