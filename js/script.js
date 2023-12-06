@@ -18,21 +18,27 @@ createApp({
               message: 'Hai portato a spasso il cane?',
               status: 'sent',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             },
             {
               date: '10/01/2020 15:50:00',
               message: 'Ricordati di stendere i panni',
               status: 'sent',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             },
             {
               date: '10/01/2020 16:15:22',
               message: 'Tutto fatto!',
               status: 'received',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             }
           ],
         },
@@ -46,21 +52,27 @@ createApp({
               message: 'Ciao come stai?',
               status: 'sent',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             },
             {
               date: '20/03/2020 16:30:55',
               message: 'Bene grazie! Stasera ci vediamo?',
               status: 'received',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             },
             {
               date: '20/03/2020 16:35:00',
               message: 'Mi piacerebbe ma devo andare a fare la spesa.',
               status: 'sent',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             }
           ],
         },
@@ -74,21 +86,27 @@ createApp({
               message: 'La Marianna va in campagna',
               status: 'received',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             },
             {
               date: '28/03/2020 10:20:10',
               message: 'Sicuro di non aver sbagliato chat?',
               status: 'sent',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             },
             {
               date: '28/03/2020 16:15:22',
               message: 'Ah scusa!',
               status: 'received',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             }
           ],
         },
@@ -102,14 +120,18 @@ createApp({
               message: 'Lo sai che ha aperto una nuova pizzeria?',
               status: 'sent',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             },
             {
               date: '10/01/2020 15:50:00',
               message: 'Si, ma preferirei andare al cinema',
               status: 'received',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             }
           ],
         },
@@ -123,14 +145,18 @@ createApp({
               message: 'Ricordati di chiamare la nonna',
               status: 'sent',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             },
             {
               date: '10/01/2020 15:50:00',
               message: 'Va bene, stasera la sento',
               status: 'received',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             }
           ],
         },
@@ -144,22 +170,27 @@ createApp({
               message: 'Ciao Claudia, hai novità?',
               status: 'sent',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             },
             {
               date: '10/01/2020 15:50:00',
               message: 'Non ancora',
               status: 'received',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             },
             {
               date: '10/01/2020 15:51:00',
               message: 'Nessuna nuova, buona nuova',
               status: 'sent',
               msgMenu: false,
-              deletedMsg: false
-
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             }
           ],
         },
@@ -173,14 +204,18 @@ createApp({
               message: 'Fai gli auguri a Martina che è il suo compleanno!',
               status: 'sent',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             },
             {
               date: '10/01/2020 15:50:00',
               message: 'Grazie per avermelo ricordato, le scrivo subito!',
               status: 'received',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             }
           ],
         },
@@ -194,21 +229,27 @@ createApp({
               message: 'Ciao, andiamo a mangiare la pizza stasera?',
               status: 'received',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             },
             {
               date: '10/01/2020 15:50:00',
               message: 'No, l\'ho già mangiata ieri, ordiniamo sushi!',
               status: 'sent',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             },
             {
               date: '10/01/2020 15:51:00',
               message: 'OK!!',
               status: 'received',
               msgMenu: false,
-              deletedMsg: false
+              deletedMsg: false,
+              removedMsg: false,
+              msgInfo: false
             }
           ],
         }
@@ -237,18 +278,13 @@ createApp({
       this.selectedChat = this.contacts[index]
     },
 
-    lastMsgFromCt(){
-      let lastReceivedMsg
-      if(!this.selectedChat){
-        for (let i = this.selectedChat.messages.length - 1; i < 0; i--) {
-          const element = this.selectedChat.messages[i];
-          if(element.state == 'received'){
-            lastReceivedMsg = element.date
-          }
-        }
+    lastMsgReceived(){
+      if(this.selectedChat.messages){
+        let receivedMsg = this.selectedChat.messages.filter((msg) => msg.status == 'received')
+        let lastReceivedMsg = receivedMsg[receivedMsg.length -1].date
+        let result = this.dateToHour(lastReceivedMsg)
+        return result
       }
-      
-      return lastReceivedMsg
     },
 
     searchContactBy(value){
@@ -283,10 +319,13 @@ createApp({
     deleteMsgForAll(item){
       item.message = 'Questo messaggio è stato eliminato.';
       item.msgMenu = '';
-      item.deletedMsg = true
+      item.deletedMsg = true;
+      item.msgMenu = !item.msgMenu
     },
-    deleteMsgForMe(index){
-      this.selectedChat.messages.splice(index, 1)
+
+    deleteMsgForMe( item){
+      item.removedMsg = true;
+      item.msgMenu = !item.msgMenu
     }
 
   }

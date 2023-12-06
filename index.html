@@ -87,7 +87,7 @@
             </div>
             <div class="user-info">
               <p v-show="selectedChat.name">{{selectedChat.name}}</p>
-              <p v-show="selectedChat.messages">Ultimo accesso alle {{lastMsgFromCt()}}</p>
+              <p class="user-info-detail" v-show="selectedChat.messages">Ultimo accesso alle {{lastMsgReceived()}}</p>
             </div>
           </div>
           <div class="taskbar">
@@ -100,17 +100,24 @@
       <!-- chat box -->
       <div class="message-window j-start">
         <div class="message flex" v-for="(text, index) in selectedChat.messages"
-          :class=" (text.status == 'sent') ? 'sent' : '' ">
+          :class=" (text.status == 'sent') ? 'sent' : '' "  v-show="!text.removedMsg">
           <p :class="(text.deletedMsg) ? 'italic': ''">
             {{text.message}}
           </p>
           <i class="fa-solid fa-angle-down" @click="text.msgMenu = !text.msgMenu" v-show="!text.deletedMsg"></i>
-          <div class="msg-popup" :class=" (text.status == 'sent') ? 'right' : 'left'" v-show="text.msgMenu" @mouseleave="text.msgMenu = !text.msgMenu">
-            <div>Message info</div>
-            <div @click="deleteMsgForMe(index)">Delete for me</div>
-            <div @click="deleteMsgForAll(text)">Delete for all</div>
-          </div>
           <span class="msg-time" v-show="!text.deletedMsg">{{dateToHour(text.date)}}</span>
+          <div class="msg-popup" :class=" (text.status == 'sent') ? 'right' : 'left'" v-show="text.msgMenu" @mouseleave="text.msgMenu = !text.msgMenu">
+            <p>Message info</p>
+            <p @click="deleteMsgForMe(text)">Delete for me</p>
+            <p @click="deleteMsgForAll(text)">Delete for all</p>
+          </div>
+          <!-- <div class="msg-info">
+            <p>{{selectedChat.name}}</p>
+            <p>{{text.status}}</p>
+            <p>{{text.date}}</p>
+            <i class="fa-solid fa-eraser" @click="deleteMsgForMe(text)"></i>
+            <i class="fa-solid fa-trash" @click="deleteMsgForAll(text)"></i>
+          </div> -->
         </div>
       </div>
       <div class="message-input flex">
