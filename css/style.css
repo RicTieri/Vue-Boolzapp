@@ -7,8 +7,8 @@
 
 body{
   padding: 3rem 0;
-  height: 100vh;
-  background-image: url('/img/background-whatsapp.jpg');
+  height: 100vh; 
+  background: linear-gradient(180deg, #009688 15%, #dcdbd2 15%);;
   font-family: 'Josefin Sans', sans-serif;
 }
 
@@ -90,15 +90,15 @@ input:focus{
   margin-right: .9rem;
 }
 
-.banner{
+.top-side .banner{
   background-color: #8edafc;
 }
 
-.banner i{
+.top-side .banner i{
   color: #8edafc;
 }
 
-.banner p{
+.top-side .banner p{
   font-size: .9rem;
 }
 
@@ -203,13 +203,23 @@ input:focus{
 }
 
 .msg-popup{
+  width: 140px;
   padding: .66rem 1rem 0;
   border-radius: 10px;
   background-color: #eaeaea;
+  z-index: 1;
+}
+
+.msg-popup.right{
   position: absolute;
   top: 2rem;
   right: 5px;
-  z-index: 1;
+}
+
+.msg-popup.left{
+  position: absolute;
+  top: 2rem;
+  left: 5px;
 }
 
 .msg-popup div{

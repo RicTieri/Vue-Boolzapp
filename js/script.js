@@ -24,7 +24,8 @@ createApp({
               date: '10/01/2020 15:50:00',
               message: 'Ricordati di stendere i panni',
               status: 'sent',
-              msgMenu: false
+              msgMenu: false,
+              deletedMsg: false
             },
             {
               date: '10/01/2020 16:15:22',
@@ -214,7 +215,7 @@ createApp({
       ],
       selectedChat: {},
       newMessage: '',
-      searchingChat: '',
+      searchingChat: ''
     }
   },
   methods: {
@@ -225,11 +226,29 @@ createApp({
     },
 
     shortShowMsg(msg) {
-      return msg.slice(0, 20) + '...';
+      let maybeCropMsg = msg;
+      if(msg.length >= 20){
+        maybeCropMsg = msg.slice(0, 20) + '...';
+      } 
+      return maybeCropMsg
     },
 
     selected(index) {
       this.selectedChat = this.contacts[index]
+    },
+
+    lastMsgFromCt(){
+      let lastReceivedMsg
+      if(!this.selectedChat){
+        for (let i = this.selectedChat.messages.length - 1; i < 0; i--) {
+          const element = this.selectedChat.messages[i];
+          if(element.state == 'received'){
+            lastReceivedMsg = element.date
+          }
+        }
+      }
+      
+      return lastReceivedMsg
     },
 
     searchContactBy(value){
@@ -245,7 +264,7 @@ createApp({
 
     sendMessage(msg){
       let newMsg = {
-        date: '10/01/2020 15:30:55',
+        date: luxon.DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
         message: msg,
         status: 'sent'
       };
@@ -253,18 +272,21 @@ createApp({
       this.newMessage = '';
       setTimeout(()=>{
         let newMsg = {
-          date: '10/01/2020 15:30:55',
-          message: 'ok',
+          date: luxon.DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
+          message: 'Non lo so Ric, mi sembra falso!',
           status: 'received'
         };
         this.selectedChat.messages.push(newMsg);
       } ,1000)
     },
 
-    deleteMessage(item){
+    deleteMsgForAll(item){
       item.message = 'Questo messaggio è stato eliminato.';
       item.msgMenu = '';
       item.deletedMsg = true
+    },
+    deleteMsgForMe(index){
+      this.selectedChat.messages.splice(index, 1)
     }
 
   }

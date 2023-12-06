@@ -18,10 +18,13 @@
 </head>
 
 <body>
+  <!-- vuejs -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/luxon@3.4/build/global/luxon.min.js"></script>
 
   <div id="app">
     <aside class="sidebar flex j-start">
+      <!-- top sidebar -->
       <div class="top-side">
         <div class="account flex">
           <div class="user-info flex">
@@ -55,10 +58,10 @@
             placeholder="Cerca o inizia una nuova chat">
         </div>
       </div>
+      <!-- bottom sidebar -->
       <div class="contact-list">
-        <ul>
-          <li class="contact" v-for="(contact, index) in contacts" @click="selected(index)">
-            <div v-show="contact.visible" class="contact-container flex">
+          <div class="contact" v-for="(contact, index) in contacts" @click="selected(index)" v-show="contact.visible">
+            <div class="contact-container flex">
               <div class="contact-info flex">
                 <div class="img-cont">
                   <img :src="contact.avatar" alt="contact pic">
@@ -70,19 +73,21 @@
               </div>
               <span class="lastMsg-time">{{dateToHour(contact.messages[contact.messages.length - 1].date)}}</span>
             </div>
-          </li>
-        </ul>
+          </div>
       </div>
     </aside>
+    <!-- chat display -->
     <main class="content flex">
+      <!-- chat top-bar -->
       <div class="chat">
         <div class="contact flex">
           <div class="contact-info flex">
             <div class="img-cont">
-              <img v-if="selectedChat.avatar" :src="selectedChat.avatar" alt="profile pic">
+              <img v-show="selectedChat.avatar" :src="selectedChat.avatar" alt="profile pic">
             </div>
             <div class="user-info">
-              <span>{{selectedChat.name}}</span>
+              <p v-show="selectedChat.name">{{selectedChat.name}}</p>
+              <p v-show="selectedChat.messages">Ultimo accesso alle {{lastMsgFromCt()}}</p>
             </div>
           </div>
           <div class="taskbar">
@@ -92,15 +97,18 @@
           </div>
         </div>
       </div>
+      <!-- chat box -->
       <div class="message-window j-start">
-        <div class="message flex" v-for="text in selectedChat.messages" :class=" (text.status == 'sent') ? 'sent' : '' ">
+        <div class="message flex" v-for="(text, index) in selectedChat.messages"
+          :class=" (text.status == 'sent') ? 'sent' : '' ">
           <p :class="(text.deletedMsg) ? 'italic': ''">
             {{text.message}}
           </p>
           <i class="fa-solid fa-angle-down" @click="text.msgMenu = !text.msgMenu" v-show="!text.deletedMsg"></i>
-          <div class="msg-popup" v-show="text.msgMenu" @mouseleave="text.msgMenu = !text.msgMenu">
-            <div @click="deleteMessage(text)">Delete</div>
-            <div>Info</div>
+          <div class="msg-popup" :class=" (text.status == 'sent') ? 'right' : 'left'" v-show="text.msgMenu" @mouseleave="text.msgMenu = !text.msgMenu">
+            <div>Message info</div>
+            <div @click="deleteMsgForMe(index)">Delete for me</div>
+            <div @click="deleteMsgForAll(text)">Delete for all</div>
           </div>
           <span class="msg-time" v-show="!text.deletedMsg">{{dateToHour(text.date)}}</span>
         </div>
@@ -113,8 +121,7 @@
     </main>
   </div>
 
-
-  <script src="./js/script.js"></script>
+  <script src="./js/script.js" type="module"></script>
 </body>
 
 </html>
