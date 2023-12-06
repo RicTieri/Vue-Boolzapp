@@ -255,6 +255,7 @@ createApp({
         }
       ],
       selectedChat: {},
+      selectedMsg: {},
       newMessage: '',
       searchingChat: ''
     }
@@ -274,8 +275,12 @@ createApp({
       return maybeCropMsg
     },
 
-    selected(index) {
+    selChat(index) {
       this.selectedChat = this.contacts[index]
+    },
+
+    selMsg(text, index) {
+      this.selectedMsg = {...text, msgInfo: true, srcIndex: index};
     },
 
     lastMsgReceived(){
@@ -317,15 +322,19 @@ createApp({
     },
 
     deleteMsgForAll(item){
-      item.message = 'Questo messaggio è stato eliminato.';
-      item.msgMenu = '';
-      item.deletedMsg = true;
-      item.msgMenu = !item.msgMenu
+        item.message = 'Questo messaggio è stato eliminato.';
+        item.msgMenu = '';
+        item.deletedMsg = true;
+        item.msgMenu = false;
+        item.msgInfo = false
     },
 
-    deleteMsgForMe( item){
+    deleteMsgForMe(item){
+      if(!item.deletedMsg){
       item.removedMsg = true;
-      item.msgMenu = !item.msgMenu
+      item.msgMenu = false;
+      item.msgInfo = false
+      }
     }
 
   }

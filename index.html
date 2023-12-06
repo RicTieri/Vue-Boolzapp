@@ -60,20 +60,20 @@
       </div>
       <!-- bottom sidebar -->
       <div class="contact-list">
-          <div class="contact" v-for="(contact, index) in contacts" @click="selected(index)" v-show="contact.visible">
-            <div class="contact-container flex">
-              <div class="contact-info flex">
-                <div class="img-cont">
-                  <img :src="contact.avatar" alt="contact pic">
-                </div>
-                <div class="contact-info">
-                  <p class="contact-name">{{contact.name}}</p>
-                  <p class="lastMsg">{{shortShowMsg(contact.messages[contact.messages.length - 1].message)}}</p>
-                </div>
+        <div class="contact" v-for="(contact, index) in contacts" @click="selChat(index)" v-show="contact.visible">
+          <div class="contact-container flex">
+            <div class="contact-info flex">
+              <div class="img-cont">
+                <img :src="contact.avatar" alt="contact pic">
               </div>
-              <span class="lastMsg-time">{{dateToHour(contact.messages[contact.messages.length - 1].date)}}</span>
+              <div class="contact-info">
+                <p class="contact-name">{{contact.name}}</p>
+                <p class="lastMsg">{{shortShowMsg(contact.messages[contact.messages.length - 1].message)}}</p>
+              </div>
             </div>
+            <span class="lastMsg-time">{{dateToHour(contact.messages[contact.messages.length - 1].date)}}</span>
           </div>
+        </div>
       </div>
     </aside>
     <!-- chat display -->
@@ -100,24 +100,31 @@
       <!-- chat box -->
       <div class="message-window j-start">
         <div class="message flex" v-for="(text, index) in selectedChat.messages"
-          :class=" (text.status == 'sent') ? 'sent' : '' "  v-show="!text.removedMsg">
+          :class=" (text.status == 'sent') ? 'sent' : '' " v-show="!text.removedMsg">
           <p :class="(text.deletedMsg) ? 'italic': ''">
             {{text.message}}
           </p>
           <i class="fa-solid fa-angle-down" @click="text.msgMenu = !text.msgMenu" v-show="!text.deletedMsg"></i>
           <span class="msg-time" v-show="!text.deletedMsg">{{dateToHour(text.date)}}</span>
-          <div class="msg-popup" :class=" (text.status == 'sent') ? 'right' : 'left'" v-show="text.msgMenu" @mouseleave="text.msgMenu = !text.msgMenu">
-            <p>Message info</p>
+          <div class="msg-popup" :class=" (text.status == 'sent') ? 'right' : 'left'" v-show="text.msgMenu"
+            @mouseleave="text.msgMenu = !text.msgMenu">
+            <p @click="selMsg(text, index)">Message info</p>
             <p @click="deleteMsgForMe(text)">Delete for me</p>
             <p @click="deleteMsgForAll(text)">Delete for all</p>
           </div>
-          <!-- <div class="msg-info">
-            <p>{{selectedChat.name}}</p>
-            <p>{{text.status}}</p>
-            <p>{{text.date}}</p>
-            <i class="fa-solid fa-eraser" @click="deleteMsgForMe(text)"></i>
-            <i class="fa-solid fa-trash" @click="deleteMsgForAll(text)"></i>
-          </div> -->
+        </div>
+        <div v-if="selectedMsg.msgInfo" class="msg-info">
+          <div class="msg-info-box flex ai-start" @mouseleave="selectedMsg.msgInfo = !selectedMsg.msgInfo">
+            <i class="fa-regular fa-circle-xmark as-end" @click="selectedMsg.msgInfo = !selectedMsg.msgInfo"></i>
+            <p v-if="selectedMsg.status == 'received'">Chat con: {{selectedChat.name}}</p>
+            <p v-else>Inviato da te</p>
+            <p>Stato: {{selectedMsg.status}}</p>
+            <p>{{selectedMsg.date}}</p>
+            <div class="ic-wrapper flex">
+              <i class="fa-solid fa-eraser" @click="deleteMsgForMe(selectedChat.messages[selectedMsg.srcIndex])"></i>
+              <i class="fa-solid fa-trash" @click="deleteMsgForAll(selectedChat.messages[selectedMsg.srcIndex])"></i>
+            </div>
+          </div>
         </div>
       </div>
       <div class="message-input flex">
