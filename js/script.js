@@ -435,7 +435,7 @@ createApp({
             removedMsg: false,
             msgInfo: false
           };
-          this.contacts[this.activeIndex].messages.push(newMsg);
+          this.contacts[0].messages.push(newMsg);
         }, 1000)
       }
     },
