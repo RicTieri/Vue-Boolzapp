@@ -63,13 +63,13 @@
         </div>
         <div class="search-bar flex">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="search" name="search" v-model="searchingChat" @keyup="searchContactBy(searchingChat)"
+          <input type="text" id="search" name="search" v-model="searchingChat" @keyup="search"
             placeholder="Cerca o inizia una nuova chat">
         </div>
       </div>
       <!-- bottom sidebar -->
       <div class="contact-list">
-        <div class="contact" :class=" activeIndex == index ?'active-contact':''" v-for="(contact, index) in sortedContacts()" @click="selChat(index)" v-show="contact.visible" >
+        <div class="contact" :class=" activeIndex == index ?'active-contact':''" v-for="(contact, index) in sortedContacts" @click="selChat(index)" v-show="contact.visible" >
           <div class="contact-container flex" >
             <div class="contact-info flex">
               <div v-if="contact.avatar" class="img-cont">
@@ -99,7 +99,7 @@
             </div>
             <div class="user-info">
               <p v-show="contacts[activeIndex].name">{{contacts[activeIndex].name}}</p>
-              <p class="user-info-detail" v-show="contacts[activeIndex].messages">Ultimo accesso alle {{lastMsgReceivedTime()}}</p>
+              <p class="user-info-detail" v-show="contacts[activeIndex].messages">Ultimo accesso alle {{lastMsgReceivedTime}}</p>
             </div>
           </div>
           <div class="taskbar">
@@ -111,15 +111,15 @@
       </div>
       <!-- chat box -->
       <div class="message-window">
-        <div class="message flex" v-for="(text, index) in contacts[activeIndex].messages.slice().reverse()"
+        <div class="message flex" v-for="(text, index) in openChat"
           :class=" (text.status == 'sent') ? 'sent' : '' " v-show="!text.removedMsg">
           <p :class="(text.deletedMsg) ? 'italic': ''">
             {{text.message}}
           </p>
-          <i class="fa-solid fa-angle-down" @click="text.msgMenu = !text.msgMenu" v-show="!text.deletedMsg"></i>
+          <i class="fa-solid fa-angle-down" @click="openMsgMenu(text)" v-show="!text.deletedMsg"></i>
           <span class="msg-time" v-show="!text.deletedMsg">{{dateToHour(text.date)}}</span>
           <div class="msg-popup" :class=" (text.status == 'sent') ? 'right' : 'left'" v-show="text.msgMenu"
-            @mouseleave="text.msgMenu = !text.msgMenu">
+            @mouseleave="openMsgMenu(text)">
             <p @click="selMsg(text, index)">Message info</p>
             <p @click="deleteMsgForMe(text)">Delete for me</p>
             <p @click="deleteMsgForAll(text)">Delete for all</p>

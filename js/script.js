@@ -331,15 +331,7 @@ createApp({
     }
   },
   methods: {
-    sortedContacts() {
-      let sorted = this.contacts.sort((a, b) => {
-        let obj1 = DateTime.fromFormat(b.messages[b.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss");
-        let obj2 = DateTime.fromFormat(a.messages[a.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss");
-        return obj1 < obj2 ? - 1 : obj1 > obj2 ? 1 : 0
-      })
-      return sorted
-    },
-
+    
     dateToHour(value) {
       return DateTime.fromFormat(value, "dd/LL/yyyy HH:mm:ss").toFormat("HH:mm")
     },
@@ -357,13 +349,13 @@ createApp({
       if (!this.contacts[index].avatar) this.contacts[index].avatar = './img/blank-profile.jpg'
     },
 
-    selEmojiMenu(index) {
-      this.emojiSelCategory = this.emojiArray[index]
-    },
-
     openEmojiMenu() {
       this.emojiMenu = !this.emojiMenu;
       this.selEmojiMenu(0)
+    },
+
+    selEmojiMenu(index) {
+      this.emojiSelCategory = this.emojiArray[index]
     },
 
     addEmojiToNewMessage(emoji) {
@@ -374,30 +366,10 @@ createApp({
       this.selectedMsg = { ...text, msgInfo: true, srcIndex: index };
     },
 
-    lastMsgReceivedTime() {
-      if (this.contacts[this.activeIndex].messages) {
-        let receivedMsg = this.contacts[this.activeIndex].messages.filter((msg) => msg.status == 'received')
-        let lastReceivedMsg = receivedMsg[receivedMsg.length - 1].date
-        let result = this.dateToHour(lastReceivedMsg)
-        return result
-      }
-    },
-
     lastMsg(contact) {
       let showMsg = contact.messages.filter((msg) => msg.removedMsg == false)
       let lastReceivedMsg = showMsg[showMsg.length - 1]
       return lastReceivedMsg.message
-    },
-
-    searchContactBy(value) {
-      this.contacts.filter((element) => {
-        let check = element.name.toLowerCase();
-        if (!check.includes(value)) {
-          element.visible = false;
-        } else {
-          element.visible = true;
-        }
-      })
     },
 
     sendMessage(msg) {
@@ -444,12 +416,44 @@ createApp({
         item.msgMenu = false;
         item.msgInfo = false;
       }
-    }
+    },
+
+    openMsgMenu(text){
+       text.msgMenu = !text.msgMenu
+    },
   },
   computed: {
-    // search(){
-    //   if (!check.includes(value))element.visible = false;
-    // },
+    sortedContacts() {
+      return this.contacts.sort((a, b) => {
+        let obj1 = DateTime.fromFormat(b.messages[b.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss");
+        let obj2 = DateTime.fromFormat(a.messages[a.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss");
+        return obj1 < obj2 ? - 1 : obj1 > obj2 ? 1 : 0
+      })
+    },
+
+    search() {
+      this.contacts.filter((element) => {
+        let check = element.name.toLowerCase();
+        if (check.includes(this.searchingChat)) {
+          element.visible = true;
+        } else {
+          element.visible = false;
+        }
+      })
+    },
+
+    lastMsgReceivedTime() {
+      if (this.contacts[this.activeIndex].messages) {
+        let receivedMsg = this.contacts[this.activeIndex].messages.filter((msg) => msg.status == 'received')
+        let lastReceivedMsg = receivedMsg[receivedMsg.length - 1].date
+        return this.dateToHour(lastReceivedMsg) 
+      }
+    },
+
+    openChat(){
+      return this.contacts[this.activeIndex].messages.slice().reverse()
+    },
+
   }
 }
 ).mount('#app')
