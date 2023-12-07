@@ -330,10 +330,11 @@ createApp({
     }
   },
   methods: {
-    dateToHour(date) {
-      let firstStage = date.split(' ');
-      let secondStage = firstStage[1].split(':');
-      return secondStage[0] + ':' + secondStage[1]
+    dateToHour(value) {
+      // let firstStage = date.split(' ');
+      // let secondStage = firstStage[1].split(':');
+      // return secondStage[0] + ':' + secondStage[1]
+      return luxon.DateTime.fromFormat(value, "dd/LL/yyyy HH:mm:ss").toFormat("HH:mm")
     },
 
     shortShowMsg(msg) {
