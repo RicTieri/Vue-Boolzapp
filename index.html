@@ -111,7 +111,7 @@
       </div>
       <!-- chat box -->
       <div class="message-window">
-        <div class="message flex" v-for="(text, index) in contacts[activeIndex].messages.slice().reverse"
+        <div class="message flex" v-for="(text, index) in contacts[activeIndex].messages.slice().reverse()"
           :class=" (text.status == 'sent') ? 'sent' : '' " v-show="!text.removedMsg">
           <p :class="(text.deletedMsg) ? 'italic': ''">
             {{text.message}}
