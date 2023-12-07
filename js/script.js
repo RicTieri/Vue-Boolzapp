@@ -331,19 +331,16 @@ createApp({
     }
   },
   methods: {
-    sortedContacts(contacts) {
-      let sorted = contacts.sort((a, b) => {
+    sortedContacts() {
+      let sorted = this.contacts.sort((a, b) => {
         let obj1 = DateTime.fromFormat(b.messages[b.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss");
         let obj2 = DateTime.fromFormat(a.messages[a.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss");
-        return obj1 < obj2 ? - 1 : obj1 > obj2 ? 1 : 0  
+        return obj1 < obj2 ? - 1 : obj1 > obj2 ? 1 : 0
       })
       return sorted
     },
 
     dateToHour(value) {
-      // let firstStage = date.split(' ');
-      // let secondStage = firstStage[1].split(':');
-      // return secondStage[0] + ':' + secondStage[1]
       return DateTime.fromFormat(value, "dd/LL/yyyy HH:mm:ss").toFormat("HH:mm")
     },
 
@@ -393,16 +390,7 @@ createApp({
     },
 
     searchContactBy(value) {
-      this.contacts.forEach((element) => {
-        let check = element.name.toLowerCase();
-        if (!check.includes(value)) {
-          element.visible = false;
-        } else {
-          element.visible = true;
-        }
-      });
-
-      this.new.forEach((element) => {
+      this.contacts.filter((element) => {
         let check = element.name.toLowerCase();
         if (!check.includes(value)) {
           element.visible = false;
@@ -425,6 +413,7 @@ createApp({
         };
         this.contacts[this.activeIndex].messages.push(newMsg);
         this.newMessage = '';
+        this.activeIndex = 0;
         setTimeout(() => {
           let newMsg = {
             date: DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
@@ -435,7 +424,7 @@ createApp({
             removedMsg: false,
             msgInfo: false
           };
-          this.contacts[0].messages.push(newMsg);
+          this.contacts[this.activeIndex].messages.push(newMsg);
         }, 1000)
       }
     },
@@ -457,5 +446,10 @@ createApp({
       }
     }
   },
+  computed: {
+    // search(){
+    //   if (!check.includes(value))element.visible = false;
+    // },
+  }
 }
 ).mount('#app')
