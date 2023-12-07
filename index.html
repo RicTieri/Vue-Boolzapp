@@ -69,7 +69,7 @@
       </div>
       <!-- bottom sidebar -->
       <div class="contact-list">
-        <div class="contact" :class=" activeIndex == index ?'active-contact':''" v-for="(contact, index) in contacts" @click="selChat(index)" v-show="contact.visible" >
+        <div class="contact" :class=" activeIndex == index ?'active-contact':''" v-for="(contact, index) in sortedContacts(contacts)" @click="selChat(index)" v-show="contact.visible" >
           <div class="contact-container flex" >
             <div class="contact-info flex">
               <div v-if="contact.avatar" class="img-cont">

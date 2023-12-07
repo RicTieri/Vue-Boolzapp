@@ -331,6 +331,15 @@ createApp({
     }
   },
   methods: {
+    sortedContacts(contacts) {
+      let sorted = contacts.sort((a, b) => {
+        let obj1 = DateTime.fromFormat(b.messages[b.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss");
+        let obj2 = DateTime.fromFormat(a.messages[a.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss");
+        return obj1 < obj2 ? - 1 : obj1 > obj2 ? 1 : 0  
+      })
+      return sorted
+    },
+
     dateToHour(value) {
       // let firstStage = date.split(' ');
       // let secondStage = firstStage[1].split(':');
@@ -351,16 +360,16 @@ createApp({
       if (!this.contacts[index].avatar) this.contacts[index].avatar = './img/blank-profile.jpg'
     },
 
-    selEmojiMenu(index){
+    selEmojiMenu(index) {
       this.emojiSelCategory = this.emojiArray[index]
     },
 
-    openEmojiMenu(){
+    openEmojiMenu() {
       this.emojiMenu = !this.emojiMenu;
       this.selEmojiMenu(0)
     },
 
-    addEmojiToNewMessage(emoji){
+    addEmojiToNewMessage(emoji) {
       this.newMessage += emoji
     },
 
@@ -404,7 +413,7 @@ createApp({
     },
 
     sendMessage(msg) {
-      if(msg.trim()){
+      if (msg.trim()) {
         let newMsg = {
           date: DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
           message: msg.trim(),
