@@ -333,17 +333,17 @@ createApp({
   methods: {
 
     dateToHour(value) {
-      return DateTime.fromFormat(value, "dd/LL/yyyy HH:mm:ss").toFormat("HH:mm")
+      if(value) return DateTime.fromFormat(value, "dd/LL/yyyy HH:mm:ss").toFormat("HH:mm")
+      return null
     },
 
     shortShowMsg(msg) {
       if (msg) {
-        let maybeCropMsg = msg;
         if (msg.length >= 20) {
-          maybeCropMsg = msg.slice(0, 20) + '...';
+          return msg.slice(0, 20) + '...';
         }
-        return maybeCropMsg
-      }
+        return msg
+      } 
     },
 
     selChat(index) {
@@ -369,13 +369,10 @@ createApp({
     },
 
     lastMsg(contact) {
-      let showMsg = contact.messages.filter((msg) => msg.removedMsg == false)
-      let lastReceivedMsg = showMsg[showMsg.length - 1]
-      if(lastReceivedMsg){
-        return lastReceivedMsg.message
-      } else{
-        null
-      }
+      let showMsg = contact.messages.filter((msg) => !msg.removedMsg);
+      let lastReceivedMsg = showMsg[showMsg.length - 1];
+      if(lastReceivedMsg) return lastReceivedMsg;
+      return lastReceivedMsg = ''
     },
 
     sendMessage(msg) {
@@ -434,9 +431,7 @@ createApp({
       }
     },
 
-    openMsgMenu(text) {
-      text.msgMenu = !text.msgMenu
-    },
+    openMsgMenu(text) { text.msgMenu = !text.msgMenu },
   },
   
   computed: {
@@ -459,7 +454,7 @@ createApp({
       })
     },
 
-    lastMsgReceivedTime() {
+    lastSeen() {
       if (this.contacts[this.activeIndex].messages) {
         let receivedMsg = this.contacts[this.activeIndex].messages.filter((msg) => msg.status == 'received')
         let lastReceivedMsg = receivedMsg[receivedMsg.length - 1].date

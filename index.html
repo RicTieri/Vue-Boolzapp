@@ -80,10 +80,10 @@
               </div>
               <div class="contact-info">
                 <p class="contact-name">{{contact.name}}</p>
-                <p class="lastMsg">{{shortShowMsg(lastMsg(contact))}}</p>
+                <p class="lastMsg">{{shortShowMsg(lastMsg(contact).message)}}</p>
               </div>
             </div>
-            <span class="lastMsg-time">{{dateToHour(contact.messages[contact.messages.length - 1].date)}}</span>
+            <span class="lastMsg-time">{{dateToHour(lastMsg(contact).date)}}</span>
           </div>
         </div>
       </div>
@@ -99,7 +99,7 @@
             </div>
             <div class="user-info">
               <p v-show="contacts[activeIndex].name">{{contacts[activeIndex].name}}</p>
-              <p class="user-info-detail" v-show="contacts[activeIndex].messages">Ultimo accesso alle {{lastMsgReceivedTime}}</p>
+              <p class="user-info-detail" v-show="contacts[activeIndex].messages">Ultimo accesso alle {{lastSeen}}</p>
             </div>
           </div>
           <div class="taskbar">
