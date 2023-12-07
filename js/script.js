@@ -1,3 +1,4 @@
+const { DateTime } = luxon
 const { createApp } = Vue
 
 createApp({
@@ -334,7 +335,7 @@ createApp({
       // let firstStage = date.split(' ');
       // let secondStage = firstStage[1].split(':');
       // return secondStage[0] + ':' + secondStage[1]
-      return luxon.DateTime.fromFormat(value, "dd/LL/yyyy HH:mm:ss").toFormat("HH:mm")
+      return DateTime.fromFormat(value, "dd/LL/yyyy HH:mm:ss").toFormat("HH:mm")
     },
 
     shortShowMsg(msg) {
@@ -405,7 +406,7 @@ createApp({
     sendMessage(msg) {
       if(msg.trim()){
         let newMsg = {
-          date: luxon.DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
+          date: DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
           message: msg.trim(),
           status: 'sent',
           msgMenu: false,
@@ -417,7 +418,7 @@ createApp({
         this.newMessage = '';
         setTimeout(() => {
           let newMsg = {
-            date: luxon.DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
+            date: DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
             message: 'Non lo so Michh, mi sembra falso!',
             status: 'received',
             msgMenu: false,
