@@ -331,17 +331,19 @@ createApp({
     }
   },
   methods: {
-    
+
     dateToHour(value) {
       return DateTime.fromFormat(value, "dd/LL/yyyy HH:mm:ss").toFormat("HH:mm")
     },
 
     shortShowMsg(msg) {
-      let maybeCropMsg = msg;
-      if (msg.length >= 20) {
-        maybeCropMsg = msg.slice(0, 20) + '...';
+      if (msg) {
+        let maybeCropMsg = msg;
+        if (msg.length >= 20) {
+          maybeCropMsg = msg.slice(0, 20) + '...';
+        }
+        return maybeCropMsg
       }
-      return maybeCropMsg
     },
 
     selChat(index) {
@@ -369,7 +371,11 @@ createApp({
     lastMsg(contact) {
       let showMsg = contact.messages.filter((msg) => msg.removedMsg == false)
       let lastReceivedMsg = showMsg[showMsg.length - 1]
-      return lastReceivedMsg.message
+      if(lastReceivedMsg){
+        return lastReceivedMsg.message
+      } else{
+        null
+      }
     },
 
     sendMessage(msg) {
@@ -401,6 +407,16 @@ createApp({
       }
     },
 
+    isReceived(text) {
+      return text.status == 'received'
+    },
+
+    isBottom(index) {
+      let chatCheck = this.contacts[this.activeIndex].messages.slice().reverse();
+      let par = chatCheck.findIndex((msg)=> msg.removedMsg == false);
+      return index == par     
+    },
+
     deleteMsgForAll(item) {
       if (!item.removedMsg) {
         item.message = 'Questo messaggio è stato eliminato.';
@@ -418,10 +434,11 @@ createApp({
       }
     },
 
-    openMsgMenu(text){
-       text.msgMenu = !text.msgMenu
+    openMsgMenu(text) {
+      text.msgMenu = !text.msgMenu
     },
   },
+  
   computed: {
     sortedContacts() {
       return this.contacts.sort((a, b) => {
@@ -446,14 +463,17 @@ createApp({
       if (this.contacts[this.activeIndex].messages) {
         let receivedMsg = this.contacts[this.activeIndex].messages.filter((msg) => msg.status == 'received')
         let lastReceivedMsg = receivedMsg[receivedMsg.length - 1].date
-        return this.dateToHour(lastReceivedMsg) 
+        return this.dateToHour(lastReceivedMsg)
       }
     },
 
-    openChat(){
+    openChat() {
       return this.contacts[this.activeIndex].messages.slice().reverse()
     },
 
+    infoMsg() {
+      return this.contacts[this.activeIndex].messages.slice().reverse()[this.selectedMsg.srcIndex]
+    }
   }
 }
 ).mount('#app')

@@ -118,8 +118,7 @@
           </p>
           <i class="fa-solid fa-angle-down" @click="openMsgMenu(text)" v-show="!text.deletedMsg"></i>
           <span class="msg-time" v-show="!text.deletedMsg">{{dateToHour(text.date)}}</span>
-          <div class="msg-popup" :class=" (text.status == 'sent') ? 'right' : 'left'" v-show="text.msgMenu"
-            @mouseleave="openMsgMenu(text)">
+          <div class="msg-popup" :class=" {left: isReceived(text), bottom: isBottom(index)}" v-show="text.msgMenu" @mouseleave="openMsgMenu(text)">
             <p @click="selMsg(text, index)">Message info</p>
             <p @click="deleteMsgForMe(text)">Delete for me</p>
             <p @click="deleteMsgForAll(text)">Delete for all</p>
@@ -133,8 +132,8 @@
             <p>Stato: {{selectedMsg.status}}</p>
             <p>{{selectedMsg.date}}</p>
             <div class="ic-wrapper flex">
-              <i class="fa-solid fa-eraser" @click="deleteMsgForMe(contacts[activeIndex].messages[selectedMsg.srcIndex])"></i>
-              <i class="fa-solid fa-trash" @click="deleteMsgForAll(contacts[activeIndex].messages[selectedMsg.srcIndex])"></i>
+              <i class="fa-solid fa-eraser" @click="deleteMsgForMe(infoMsg)"></i>
+              <i class="fa-solid fa-trash" @click="deleteMsgForAll(infoMsg)"></i>
             </div>
           </div>
         </div>
