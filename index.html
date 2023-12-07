@@ -91,7 +91,7 @@
     <!-- chat display -->
     <main class="content flex">
       <!-- chat top-bar -->
-      <div class="chat">
+      <div class="chat-head">
         <div class="contact flex">
           <div class="contact-info flex">
             <div class="img-cont" :class="(contacts[activeIndex].avatar) ? 'box-sh':''">
@@ -110,8 +110,8 @@
         </div>
       </div>
       <!-- chat box -->
-      <div class="message-window j-start">
-        <div class="message flex" v-for="(text, index) in contacts[activeIndex].messages"
+      <div class="message-window">
+        <div class="message flex" v-for="(text, index) in contacts[activeIndex].messages.slice().reverse"
           :class=" (text.status == 'sent') ? 'sent' : '' " v-show="!text.removedMsg">
           <p :class="(text.deletedMsg) ? 'italic': ''">
             {{text.message}}

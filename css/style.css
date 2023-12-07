@@ -93,16 +93,16 @@ main.content{
 }
 
 .account,
-.chat{
+.chat-head{
   background-color: #eaeaea;
 }
 
-.chat{
+.chat-head{
   border-left: 2px solid #b1b1b1;
 }
 
 .account i,
-.chat i{
+.chat-head i{
   color: #b1b1b1;
   font-size: 1rem;
   font-weight: bold;
@@ -194,12 +194,12 @@ main.content{
   background-image: url('/img/mine.jpg');
   padding: 1rem 2rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: flex-start;
-  overflow: auto;
+  overflow-y: auto;
 }
 
-.chat .img-cont{
+.chat-head-head .img-cont{
   background-color: #eaeaea;
 }
 
@@ -337,7 +337,8 @@ main.content{
 .message-input i{
   color: #6a7376;
   font-size: 1.1rem;
-  padding: 0 2rem;
+  width: 90px;
+  text-align: center;
 }
 
 .message-input .fa-paper-plane{
