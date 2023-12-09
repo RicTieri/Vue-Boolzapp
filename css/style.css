@@ -5,11 +5,18 @@
   /* border: 1px solid black; */
 }
 
+/* general */
+
 body{
   padding: 3rem 0;
   height: 100vh; 
   background: linear-gradient(180deg, #009688 15%, #dcdbd2 15%);;
   font-family: 'Josefin Sans', sans-serif;
+}
+
+body i:hover{
+  scale: 1.2;
+  cursor: pointer;
 }
 
 img{
@@ -40,6 +47,10 @@ img{
 
 .j-start{
   justify-content: flex-start;
+}
+
+.j-end{
+  justify-content: flex-end;
 }
 
 .ai-start{
@@ -73,6 +84,8 @@ input::placeholder{
   box-shadow: rgba(17, 17, 26, 0.4) 0px 0px 16px;
 }
 
+/* sidebar */
+
 .sidebar{
   flex-direction: column;
   align-items: stretch;
@@ -83,13 +96,6 @@ input::placeholder{
 .sidebar .img-cont,
 .box-sh{
   box-shadow: rgba(17, 17, 26, 0.3) 0px 0px 16px;
-}
-
-
-main.content{
-  flex-direction: column;
-  align-items: stretch;
-  flex-grow: 1;
 }
 
 .account,
@@ -188,14 +194,20 @@ main.content{
   align-self: flex-start;
 }
 
+/* chat window */
+
+main.content{
+  flex-direction: column;
+  align-items: stretch;
+  flex-grow: 1;
+}
+
 .message-window{
   position: relative;
   flex-grow: 1;
   background-image: url('/img/mine.jpg');
   padding: 1rem 2rem;
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: flex-start;
+  flex-direction: column;
   overflow-y: auto;
 }
 
@@ -344,11 +356,7 @@ main.content{
   font-size: .9rem;
 }
 
-body i:hover{
-  scale: 1.2;
-  cursor: pointer;
-}
-
+/* emoji menu */
 .emoji-menu{
   flex-direction: column;
   position: absolute;
@@ -356,22 +364,15 @@ body i:hover{
   left: 1.2rem;
   width: 260px;
   padding: .5rem;
-  border-radius: 10px;
+  border-radius: 25px;
   background-color: #f3eeea;
   font-size: 1.2rem;
   box-shadow: rgba(17, 17, 26, 0.3) 0px 0px 18px;
 }
 
-.emoji-menu-head{
-  border-bottom: 1px solid #dcdbd2;
-  padding-bottom: .25rem;
-  margin-bottom: .25rem;
-}
-
 .emoji-menu-head div,
 .emoji-menu-list div{
-  padding: 0 .25rem;
-  margin-bottom: .25rem;
+  padding: 0 .25rem .5rem;
   cursor: pointer;
 }
 
@@ -381,10 +382,13 @@ body i:hover{
 }
 
 .emoji-menu-list{
+  background-color: #dcdbd286;
+  border-radius: 20px;
   padding: .25rem 0;
   flex-wrap: wrap;
 }
 
+/* keyframes */
 @media (max-width: 1400px) {
   #app{
     width: 80%;

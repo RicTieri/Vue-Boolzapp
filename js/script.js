@@ -261,14 +261,15 @@ createApp({
       searchingChat: '',
       alertOn: false,
       emojiMenu: false,
+      emojiIndex: 0,
       emojiArray: [
         {
           emojiSection: '😎',
           emojis: [
-            { character: '😀' }, { character: '😃' }, { character: '😄' }, { character: '😁' }, { character: '😆' },
+            { character: '😄' }, { character: '😁' }, { character: '😆' },
             { character: '😅' }, { character: '😂' }, { character: '🙂' }, { character: '🙃' }, { character: '😉' },
             { character: '😊' }, { character: '😋' }, { character: '😎' }, { character: '😍' }, { character: '😘' },
-            { character: '😗' }, { character: '😙' }, { character: '😚' }, { character: '☺️' }, { character: '🤗' },
+            { character: '😙' }, { character: '😚' }, { character: '🤗' },
             { character: '🤔' }, { character: '😐' }, { character: '😑' }, { character: '😶' }, { character: '😏' }
           ]
         },
@@ -332,6 +333,8 @@ createApp({
   },
   methods: {
 
+    turnAlert(){ this.alertOn = !this.alertOn },
+
     dateToHour(value) {
       if(value) return DateTime.fromFormat(value, "dd/LL/yyyy HH:mm:ss").toFormat("HH:mm")
       return null
@@ -351,19 +354,6 @@ createApp({
       if (!this.contacts[index].avatar) this.contacts[index].avatar = './img/blank-profile.jpg'
     },
 
-    openEmojiMenu() {
-      this.emojiMenu = !this.emojiMenu;
-      this.selEmojiMenu(0)
-    },
-
-    selEmojiMenu(index) {
-      this.emojiSelCategory = this.emojiArray[index]
-    },
-
-    addEmojiToNewMessage(emoji) {
-      this.newMessage += emoji
-    },
-
     selMsg(text, index) {
       this.selectedMsg = { ...text, msgInfo: true, srcIndex: index };
     },
@@ -377,7 +367,7 @@ createApp({
 
     sendMessage(msg) {
       if (msg.trim()) {
-        let newMsg = {
+        let newSend = {
           date: DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
           message: msg.trim(),
           status: 'sent',
@@ -386,11 +376,11 @@ createApp({
           removedMsg: false,
           msgInfo: false
         };
-        this.contacts[this.activeIndex].messages.push(newMsg);
+        this.contacts[this.activeIndex].messages.push(newSend);
         this.newMessage = '';
         this.activeIndex = 0;
         setTimeout(() => {
-          let newMsg = {
+          let defaultResponse = {
             date: DateTime.now().toFormat('dd/LL/yyyy HH:mm:ss'),
             message: 'Non lo so Michh, mi sembra falso!',
             status: 'received',
@@ -399,7 +389,7 @@ createApp({
             removedMsg: false,
             msgInfo: false
           };
-          this.contacts[this.activeIndex].messages.push(newMsg);
+          this.contacts[this.activeIndex].messages.push(defaultResponse);
         }, 1000)
       }
     },
@@ -409,9 +399,8 @@ createApp({
     },
 
     isBottom(index) {
-      let chatCheck = this.contacts[this.activeIndex].messages.slice().reverse();
-      let par = chatCheck.findIndex((msg)=> msg.removedMsg == false);
-      return index == par     
+      let par = this.openChat.findLastIndex((msg) => !msg.removedMsg );
+      return index == par
     },
 
     deleteMsgForAll(item) {
@@ -432,21 +421,32 @@ createApp({
     },
 
     openMsgMenu(text) { text.msgMenu = !text.msgMenu },
+
+    openEmojiMenu() {
+      this.emojiMenu = !this.emojiMenu;
+      this.emojiIndex = 0
+    },
+
+    selEmojiMenu(index) {this.emojiIndex = index},
+
+    addEmojiToNewMessage(emoji) {this.newMessage += emoji},
   },
   
   computed: {
     sortedContacts() {
       return this.contacts.sort((a, b) => {
-        let obj1 = DateTime.fromFormat(b.messages[b.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss");
-        let obj2 = DateTime.fromFormat(a.messages[a.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss");
+        let obj1 = 0;
+        let obj2 = 0;
+        if (b.messages.length > 0 ){ obj1 = DateTime.fromFormat(b.messages[b.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss")}
+        if (a.messages.length > 0 ){ obj2 = DateTime.fromFormat(a.messages[a.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss")} 
         return obj1 < obj2 ? - 1 : obj1 > obj2 ? 1 : 0
       })
     },
 
     search() {
-      this.contacts.filter((element) => {
+      this.contacts.forEach((element) => {
         let check = element.name.toLowerCase();
-        if (check.includes(this.searchingChat)) {
+        if (check.includes(this.searchingChat.trim())) {
           element.visible = true;
         } else {
           element.visible = false;
@@ -454,21 +454,26 @@ createApp({
       })
     },
 
+    lastReceived(){
+      return this.contacts[this.activeIndex].messages.filter((msg) => msg.status == 'received')
+    },
+
     lastSeen() {
-      if (this.contacts[this.activeIndex].messages) {
-        let receivedMsg = this.contacts[this.activeIndex].messages.filter((msg) => msg.status == 'received')
-        let lastReceivedMsg = receivedMsg[receivedMsg.length - 1].date
-        return this.dateToHour(lastReceivedMsg)
-      }
+        if(this.lastReceived.length > 0){
+          let lastReceivedMsg = this.lastReceived[this.lastReceived.length - 1].date
+          return this.dateToHour(lastReceivedMsg)
+        }
     },
 
     openChat() {
-      return this.contacts[this.activeIndex].messages.slice().reverse()
+      return this.contacts[this.activeIndex].messages
     },
 
     infoMsg() {
-      return this.contacts[this.activeIndex].messages.slice().reverse()[this.selectedMsg.srcIndex]
-    }
+      return this.contacts[this.activeIndex].messages[this.selectedMsg.srcIndex]
+    },
+
+    
   }
 }
 ).mount('#app')

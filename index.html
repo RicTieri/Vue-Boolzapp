@@ -41,26 +41,28 @@
             <i class="fa-solid fa-ellipsis-vertical"></i>
           </div>
         </div>
+        <!-- notification popup -->
         <div class="banner">
           <div class="user-info flex j-start" v-if="!alertOn">
             <div class="img-cont flex j-center">
-              <i class="fa-regular fa-bell-slash" @click="alertOn = !alertOn"></i>
+              <i class="fa-regular fa-bell-slash" @click="turnAlert()"></i>
             </div>
             <div class="user-info">
               <p>Ricevi notifiche di nuovi messaggi</p>
-              <a href="#" @click="alertOn = !alertOn">Attiva notifiche desktop</a>
+              <a href="#" @click="turnAlert()">Attiva notifiche desktop</a>
             </div>
           </div>
           <div class="user-info flex j-start" v-else>
             <div class="img-cont flex j-center">
-              <i class="fa-regular fa-bell" @click="alertOn = !alertOn"></i>
+              <i class="fa-regular fa-bell" @click="turnAlert()"></i>
             </div>
             <div class="user-info">
               <p>Ricevi notifiche di nuovi messaggi</p>
-              <a href="#" @click="alertOn = !alertOn">Disattiva notifiche desktop</a>
+              <a href="#" @click="turnAlert()">Disattiva notifiche desktop</a>
             </div>
           </div>
         </div>
+        <!-- search bar -->
         <div class="search-bar flex">
           <i class="fa-solid fa-magnifying-glass"></i>
           <input type="text" id="search" name="search" v-model="searchingChat" @keyup="search"
@@ -69,7 +71,7 @@
       </div>
       <!-- bottom sidebar -->
       <div class="contact-list">
-        <div class="contact" :class=" activeIndex == index ?'active-contact':''" v-for="(contact, index) in sortedContacts" @click="selChat(index)" v-show="contact.visible" >
+        <div class="contact" :class=" activeIndex == index ?'active-contact':''" v-for="(contact, index) in sortedContacts" @click="selChat(index)" v-show="contact.visible">
           <div class="contact-container flex" >
             <div class="contact-info flex">
               <div v-if="contact.avatar" class="img-cont">
@@ -80,10 +82,10 @@
               </div>
               <div class="contact-info">
                 <p class="contact-name">{{contact.name}}</p>
-                <p class="lastMsg">{{shortShowMsg(lastMsg(contact).message)}}</p>
+                <p class="lastMsg">{{ contact.messages.length > 0 ? shortShowMsg(lastMsg(contact).message) : ''}}</p>
               </div>
             </div>
-            <span class="lastMsg-time">{{dateToHour(lastMsg(contact).date)}}</span>
+            <span class="lastMsg-time">{{ contact.messages.length > 0 ? dateToHour(lastMsg(contact).date) : ''}}</span>
           </div>
         </div>
       </div>
@@ -99,7 +101,7 @@
             </div>
             <div class="user-info">
               <p v-show="contacts[activeIndex].name">{{contacts[activeIndex].name}}</p>
-              <p class="user-info-detail" v-show="contacts[activeIndex].messages">Ultimo accesso alle {{lastSeen}}</p>
+              <p class="user-info-detail" v-if="lastReceived.length">Ultimo accesso alle {{lastSeen}}</p>
             </div>
           </div>
           <div class="taskbar">
@@ -110,20 +112,22 @@
         </div>
       </div>
       <!-- chat box -->
-      <div class="message-window">
+      <div class="message-window flex j-end ai-start">
         <div class="message flex" v-for="(text, index) in openChat"
           :class=" (text.status == 'sent') ? 'sent' : '' " v-show="!text.removedMsg">
           <p :class="(text.deletedMsg) ? 'italic': ''">
             {{text.message}}
           </p>
           <i class="fa-solid fa-angle-down" @click="openMsgMenu(text)" v-show="!text.deletedMsg"></i>
-          <span class="msg-time" v-show="!text.deletedMsg">{{dateToHour(text.date)}}</span>
+          <span class="msg-time" v-if="!text.deletedMsg">{{ openChat.length > 0 ? dateToHour(text.date) : ''}}</span>
+          <!-- msg popup -->
           <div class="msg-popup" :class=" {left: isReceived(text), bottom: isBottom(index)}" v-show="text.msgMenu" @mouseleave="openMsgMenu(text)">
             <p @click="selMsg(text, index)">Message info</p>
             <p @click="deleteMsgForMe(text)">Delete for me</p>
             <p @click="deleteMsgForAll(text)">Delete for all</p>
           </div>
         </div>
+        <!-- msg info popup -->
         <div v-if="selectedMsg.msgInfo" class="msg-info">
           <div class="msg-info-box flex ai-start" @mouseleave="selectedMsg.msgInfo = !selectedMsg.msgInfo">
             <i class="fa-regular fa-circle-xmark as-end" @click="selectedMsg.msgInfo = !selectedMsg.msgInfo"></i>
@@ -137,15 +141,17 @@
             </div>
           </div>
         </div>
-        <div class="emoji-menu flex" v-show="emojiMenu" @mouseleave="emojiMenu = !emojiMenu">
+        <!-- emoji popup -->
+        <div class="emoji-menu flex" v-show="emojiMenu" @mouseleave="openEmojiMenu()">
           <div class="emoji-menu-head flex">
             <div v-for="(item, index) in emojiArray" @click="selEmojiMenu(index)">{{item.emojiSection}}</div>
           </div>
           <div class="emoji-menu-list flex j-start">
-            <div v-for="emoji in emojiSelCategory.emojis" @click="addEmojiToNewMessage(emoji.character)">{{emoji.character}}</div>
+            <div v-for="emoji in emojiArray[emojiIndex].emojis" @click="addEmojiToNewMessage(emoji.character)">{{emoji.character}}</div>
           </div>
         </div>
       </div>
+      <!-- input bar -->
       <div class="message-input flex j-start">
         <i class="fa-regular fa-face-smile" @click="openEmojiMenu()"></i>
         <input type="text" v-model="newMessage" id="newText" name="newText" @keydown.enter="sendMessage(newMessage)" placeholder="Scrivi un nuovo messaggio">
