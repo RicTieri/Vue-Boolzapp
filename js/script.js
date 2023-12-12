@@ -1,6 +1,5 @@
-const { DateTime } = luxon;
-const { createApp } = Vue;
-const openAiKey = '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';
+const { DateTime } = luxon
+const { createApp } = Vue
 
 createApp({
   data() {
@@ -332,28 +331,12 @@ createApp({
       emojiSelCategory: []
     }
   },
-  created(){
-    this.getBotReply()
-  },
   methods: {
-    getBotReply(){fetch('https://api.openai.com/v1/chat/completions',
-      { method:"POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${openAiKey}`
-        },
-        body: JSON.stringify({
-          'model': 'gpt-3.5-turbo',
-          messages: { role: "user", content: 'say hello' }
-      })})
-      .then(response => {
-        console.log(response);
-      })},
 
-    turnAlert() { this.alertOn = !this.alertOn },
+    turnAlert(){ this.alertOn = !this.alertOn },
 
     dateToHour(value) {
-      if (value) return DateTime.fromFormat(value, "dd/LL/yyyy HH:mm:ss").toFormat("HH:mm")
+      if(value) return DateTime.fromFormat(value, "dd/LL/yyyy HH:mm:ss").toFormat("HH:mm")
       return null
     },
 
@@ -363,7 +346,7 @@ createApp({
           return msg.slice(0, 20) + '...';
         }
         return msg
-      }
+      } 
     },
 
     selChat(index) {
@@ -378,7 +361,7 @@ createApp({
     lastMsg(contact) {
       let showMsg = contact.messages.filter((msg) => !msg.removedMsg);
       let lastReceivedMsg = showMsg[showMsg.length - 1];
-      if (lastReceivedMsg) return lastReceivedMsg;
+      if(lastReceivedMsg) return lastReceivedMsg;
       return lastReceivedMsg = ''
     },
 
@@ -416,7 +399,7 @@ createApp({
     },
 
     isBottom(index) {
-      let par = this.openChat.findLastIndex((msg) => !msg.removedMsg);
+      let par = this.openChat.findLastIndex((msg) => !msg.removedMsg );
       return index == par
     },
 
@@ -444,18 +427,18 @@ createApp({
       this.emojiIndex = 0
     },
 
-    selEmojiMenu(index) { this.emojiIndex = index },
+    selEmojiMenu(index) {this.emojiIndex = index},
 
-    addEmojiToNewMessage(emoji) { this.newMessage += emoji },
+    addEmojiToNewMessage(emoji) {this.newMessage += emoji},
   },
-
+  
   computed: {
     sortedContacts() {
       return this.contacts.sort((a, b) => {
         let obj1 = 0;
         let obj2 = 0;
-        if (b.messages.length > 0) { obj1 = DateTime.fromFormat(b.messages[b.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss") }
-        if (a.messages.length > 0) { obj2 = DateTime.fromFormat(a.messages[a.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss") }
+        if (b.messages.length > 0 ){ obj1 = DateTime.fromFormat(b.messages[b.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss")}
+        if (a.messages.length > 0 ){ obj2 = DateTime.fromFormat(a.messages[a.messages.length - 1].date, "dd/LL/yyyy HH:mm:ss")} 
         return obj1 < obj2 ? - 1 : obj1 > obj2 ? 1 : 0
       })
     },
@@ -471,15 +454,15 @@ createApp({
       })
     },
 
-    lastReceived() {
+    lastReceived(){
       return this.contacts[this.activeIndex].messages.filter((msg) => msg.status == 'received')
     },
 
     lastSeen() {
-      if (this.lastReceived.length > 0) {
-        let lastReceivedMsg = this.lastReceived[this.lastReceived.length - 1].date
-        return this.dateToHour(lastReceivedMsg)
-      }
+        if(this.lastReceived.length > 0){
+          let lastReceivedMsg = this.lastReceived[this.lastReceived.length - 1].date
+          return this.dateToHour(lastReceivedMsg)
+        }
     },
 
     openChat() {
@@ -490,7 +473,7 @@ createApp({
       return this.contacts[this.activeIndex].messages[this.selectedMsg.srcIndex]
     },
 
-
+    
   }
 }
 ).mount('#app')
