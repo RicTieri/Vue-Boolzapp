@@ -1,6 +1,6 @@
 const { DateTime } = luxon;
 const { createApp } = Vue;
-const openAiKey = '';
+const openAiKey = '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';
 
 createApp({
   data() {
